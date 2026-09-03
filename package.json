@@ -1,0 +1,20 @@
+{
+  "name": "darts-scorer-pro",
+  "version": "1.0.0",
+  "description": "Darts Scorer Pro - Application de scoring de flechettes 501, packagee en app Android via Capacitor.",
+  "private": true,
+  "scripts": {
+    "android:open": "npx cap open android",
+    "android:sync": "npx cap sync android",
+    "android:build-debug": "cd android && ./gradlew assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/filesystem": "^7.0.0",
+    "@capacitor/share": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.0.0"
+  }
+}

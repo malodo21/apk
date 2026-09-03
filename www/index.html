@@ -1,0 +1,2033 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-slate-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darts Scorer Pro - Ambiance Française</title>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#10b981">
+
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iIzAyMDYxNyIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iYiIgc3Ryb2tlPSIjMTAiIHN0cm9rZS13aWR0aD0iNDAiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjEyMCIgc3Ryb2tlPSIjMTAiIHN0cm9rZS13aWR0aD0iNDAiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjQwIiBmaWxsPSIjMTAiLz48L3N2Zz4=">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iIzAyMDYxNyIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iYiIgc3Ryb2tlPSIjMTAiIHN0cm9rZS13aWR0aD0iNDAiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjEyMCIgc3Ryb2tlPSIjMTAiIHN0cm9rZS13aWR0aD0iNDAiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjQwIiBmaWxsPSIjMTAiLz48L3N2Zz4=">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @keyframes festive-flash {
+            0%, 100% { background-color: rgba(2, 6, 23, 1); border-color: rgb(30, 41, 59); }
+            25%, 75% { background-color: rgba(16, 185, 129, 0.2); border-color: #fbbf24; box-shadow: 0 0 30px rgba(251, 191, 36, 0.4); }
+            50% { background-color: rgba(245, 158, 11, 0.3); border-color: #34d399; box-shadow: 0 0 50px rgba(52, 211, 153, 0.6); }
+        }
+        .animate-festive {
+            animation: festive-flash 2.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="h-full font-sans antialiased flex flex-col justify-between overflow-hidden">
+
+    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur-md px-4 py-3 flex flex-col xl:flex-row justify-between items-center shrink-0 gap-4 z-50 shadow-[0_0_20px_rgba(0,0,0,0.3)]">
+        <div class="flex items-center gap-3 w-full xl:w-auto justify-center xl:justify-start">
+            <span class="text-2xl md:text-3xl">🎯</span>
+            <h1 class="text-lg md:text-xl font-black tracking-wider bg-gradient-to-r from-emerald-400 to-amber-400 bg-clip-text text-transparent font-urbanist">DARTS SCORER PRO</h1>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-2 w-full xl:w-auto">
+            <button id="btn-stats-globales" class="flex items-center gap-2 px-3 py-2 bg-slate-800/60 hover:bg-slate-700 active:bg-slate-600 text-slate-200 rounded-xl border border-slate-600 transition-all text-[11px] md:text-xs font-bold uppercase tracking-wide shadow-sm touch-manipulation cursor-pointer">
+                <span class="text-sm md:text-base">🕒</span>
+                <span>Historique</span>
+            </button>
+
+            <button id="btn-players-stats" class="flex items-center gap-2 px-3 py-2 bg-slate-800/60 hover:bg-slate-700 active:bg-slate-600 text-slate-200 rounded-xl border border-slate-600 transition-all text-[11px] md:text-xs font-bold uppercase tracking-wide shadow-sm touch-manipulation cursor-pointer">
+                <span class="text-sm md:text-base">👤</span>
+                <span>Joueurs</span>
+            </button>
+
+            <button id="btn-records" class="flex items-center gap-2 px-3 py-2 bg-amber-950/30 hover:bg-amber-950/50 text-amber-400 rounded-xl border border-amber-900/50 transition-all text-[11px] md:text-xs font-bold uppercase tracking-wide shadow-sm touch-manipulation cursor-pointer">
+                <span class="text-sm md:text-base">🏆</span>
+                <span>Records</span>
+            </button>
+
+            <button onclick="exportHistoryToJSON()" class="flex items-center gap-2 px-3 py-2 bg-amber-950/30 hover:bg-amber-950/50 text-amber-500 rounded-xl border border-amber-900/50 transition-all text-[11px] md:text-xs font-bold uppercase tracking-wide shadow-sm touch-manipulation cursor-pointer">
+                <span class="text-sm md:text-base">📄</span>
+                <span>JSON</span>
+            </button>
+
+            <button onclick="exportHistoryToCSV()" class="flex items-center gap-2 px-3 py-2 bg-emerald-950/30 hover:bg-emerald-950/50 text-emerald-400 rounded-xl border border-emerald-900/50 transition-all text-[11px] md:text-xs font-bold uppercase tracking-wide shadow-sm touch-manipulation cursor-pointer">
+                <span class="text-sm md:text-base">📊</span>
+                <span>CSV Global</span>
+            </button>
+            
+            <button onclick="exportLegsDetailedToCSV()" class="flex items-center gap-2 px-3 py-2 bg-cyan-950/30 hover:bg-cyan-950/50 text-cyan-400 rounded-xl border border-cyan-900/50 transition-all text-[11px] md:text-xs font-bold uppercase tracking-wide shadow-sm touch-manipulation cursor-pointer">
+                <span class="text-sm md:text-base">📋</span>
+                <span>CSV Détaillé</span>
+            </button>
+
+            <button id="btn-email-csv" onclick="sendCSVsByEmail()" class="flex items-center gap-2 px-3 py-2 bg-purple-950/30 hover:bg-purple-950/50 text-purple-400 rounded-xl border border-purple-900/50 transition-all text-[11px] md:text-xs font-bold uppercase tracking-wide shadow-sm touch-manipulation cursor-pointer">
+                <span class="text-sm md:text-base">✉️</span>
+                <span>Email</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="grow p-3 md:p-5 max-w-7xl w-full mx-auto flex flex-col justify-center overflow-y-auto">
+        
+        <section id="screen-setup" class="max-w-xl w-full mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-5 md:p-8 shadow-2xl transition-all duration-300">
+            <h2 class="text-xl md:text-2xl font-bold mb-5 text-center text-slate-200">Configuration de la partie</h2>
+            
+            <div class="mb-5 bg-slate-950 p-1.5 rounded-xl border border-slate-800 flex gap-2">
+                <button type="button" id="mode-simple" onclick="setMatchMode('simple')" class="w-full py-3 rounded-lg font-bold text-xs md:text-sm uppercase tracking-wider transition-all cursor-pointer bg-emerald-500 text-slate-950">
+                    👤 Simple (1v1)
+                </button>
+                <button type="button" id="mode-double" onclick="setMatchMode('double')" class="w-full py-3 rounded-lg font-bold text-xs md:text-sm uppercase tracking-wider transition-all cursor-pointer text-slate-400 hover:text-slate-200">
+                    👥 Double (2v2)
+                </button>
+            </div>
+
+            <form id="setup-form" onsubmit="setupMatch(event)" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-3 p-4 bg-slate-950/50 rounded-xl border border-slate-800/60">
+                        <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block" id="label-team-1">Joueur 1</span>
+                        <div>
+                            <select id="p1-select" onchange="handlePlayerSelect('p1')" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 cursor-pointer"></select>
+                            <input type="text" id="p1-custom" placeholder="Prénom NOM..." class="hidden mt-2 w-full bg-slate-900 border border-emerald-600 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:outline-none">
+                        </div>
+                        <div id="p3-container" class="hidden">
+                            <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1">Partenaire (Joueur 3)</label>
+                            <select id="p3-select" onchange="handlePlayerSelect('p3')" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 cursor-pointer"></select>
+                            <input type="text" id="p3-custom" placeholder="Prénom NOM..." class="hidden mt-2 w-full bg-slate-900 border border-emerald-600 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 p-4 bg-slate-950/50 rounded-xl border border-slate-800/60">
+                        <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider block" id="label-team-2">Joueur 2</span>
+                        <div>
+                            <select id="p2-select" onchange="handlePlayerSelect('p2')" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 cursor-pointer"></select>
+                            <input type="text" id="p2-custom" placeholder="Prénom NOM..." class="hidden mt-2 w-full bg-slate-900 border border-emerald-600 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:outline-none">
+                        </div>
+                        <div id="bot-config-container" class="hidden mt-3 p-4 bg-slate-900 border border-emerald-600/50 rounded-xl shadow-inner">
+                            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Niveau du Bot (Moyenne visée)</label>
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-bold text-slate-500">Débutant</span>
+                                <input type="range" id="bot-avg-slider" min="30" max="110" step="1" value="45" class="w-full accent-emerald-500 cursor-pointer" oninput="document.getElementById('bot-avg-display').innerText = this.value">
+                                <span class="text-xs font-bold text-slate-500">Pro</span>
+                            </div>
+                            <div class="text-center mt-2">
+                                <span class="text-2xl font-black text-emerald-400 font-mono" id="bot-avg-display">45</span> <span class="text-xs text-slate-400">AVG</span>
+                            </div>
+                        </div>
+                        <div id="p4-container" class="hidden">
+                            <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1">Partenaire (Joueur 4)</label>
+                            <select id="p4-select" onchange="handlePlayerSelect('p4')" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 cursor-pointer"></select>
+                            <input type="text" id="p4-custom" placeholder="Prénom NOM..." class="hidden mt-2 w-full bg-slate-900 border border-emerald-600 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Format du match</label>
+                        <select id="match-format" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 cursor-pointer">
+                            <option value="1">1 Manche (1 Leg)</option>
+                            <option value="3" selected>Meilleur des 3 (Premier à 2)</option>
+                            <option value="5">Meilleur des 5 (Premier à 3)</option>
+                            <option value="7">Meilleur des 7 (Premier à 4)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">🎤 Voix Annonceur</label>
+                        <select id="voice-select" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 cursor-pointer">
+                            <option value="">Chargement des voix...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 font-bold py-4 rounded-xl shadow-lg shadow-emerald-500/20 hover:opacity-90 active:scale-[0.99] transition-all text-center text-xs md:text-sm uppercase tracking-wider mt-2 cursor-pointer">
+                    Commencer le match
+                </button>
+            </form>
+        </section>
+
+        <section id="screen-game" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-5 w-full h-full items-stretch">
+            
+            <div class="lg:col-span-8 flex flex-col justify-between gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
+                    <div id="card-t0" class="bg-slate-900 border-2 border-slate-800 rounded-2xl p-4 md:p-5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between">
+                        <div id="active-indicator-t0" class="absolute top-0 left-0 right-0 h-1 bg-emerald-500 opacity-0 transition-opacity"></div>
+                        <div class="flex justify-between items-start">
+                            <div class="max-w-[70%]">
+                                <h3 id="display-t0-name" class="text-sm md:text-base font-bold truncate text-slate-200">Équipe 1</h3>
+                                <span id="display-t0-shooter" class="text-xs text-emerald-400 font-mono block h-5 mt-0.5 truncate"></span>
+                            </div>
+                            <div class="flex items-center gap-1.5 shrink-0 bg-slate-950/60 px-2 py-0.5 rounded-md border border-slate-800">
+                                <span class="text-[10px] md:text-xs text-slate-400 font-medium">Manches:</span>
+                                <span id="display-t0-legs" class="text-lg md:text-xl font-black text-emerald-400">0</span>
+                            </div>
+                        </div>
+                        <div id="display-t0-score" class="text-6xl md:text-7xl font-black my-2 md:my-4 tracking-tight font-mono text-center transition-colors">501</div>
+                        <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-[11px] border-t border-slate-800/60 pt-2.5 text-slate-400 font-mono">
+                            <div>Moy (+fin): <span id="t0-stat-avg" class="text-slate-200 font-bold">0.0</span></div>
+                            <div class="text-right">Moy (-fin): <span id="t0-stat-avg-no-co" class="text-slate-200 font-bold">0.0</span></div>
+                            <div>Fléchettes: <span id="t0-stat-darts" class="text-slate-200">0</span></div>
+                            <div class="text-right">Doubles: <span id="t0-stat-co" class="text-slate-200">0%</span></div>
+                        </div>
+                    </div>
+
+                    <div id="card-t1" class="bg-slate-900 border-2 border-slate-800 rounded-2xl p-4 md:p-5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between">
+                        <div id="active-indicator-t1" class="absolute top-0 left-0 right-0 h-1 bg-emerald-500 opacity-0 transition-opacity"></div>
+                        <div class="flex justify-between items-start">
+                            <div class="max-w-[70%]">
+                                <h3 id="display-t1-name" class="text-sm md:text-base font-bold truncate text-slate-200">Équipe 2</h3>
+                                <span id="display-t1-shooter" class="text-xs text-cyan-400 font-mono block h-5 mt-0.5 truncate"></span>
+                            </div>
+                            <div class="flex items-center gap-1.5 shrink-0 bg-slate-950/60 px-2 py-0.5 rounded-md border border-slate-800">
+                                <span class="text-[10px] md:text-xs text-slate-400 font-medium">Manches:</span>
+                                <span id="display-t1-legs" class="text-lg md:text-xl font-black text-emerald-400">0</span>
+                            </div>
+                        </div>
+                        <div id="display-t1-score" class="text-6xl md:text-7xl font-black my-2 md:my-4 tracking-tight font-mono text-center transition-colors">501</div>
+                        <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-[11px] border-t border-slate-800/60 pt-2.5 text-slate-400 font-mono">
+                            <div>Moy (+fin): <span id="t1-stat-avg" class="text-slate-200 font-bold">0.0</span></div>
+                            <div class="text-right">Moy (-fin): <span id="t1-stat-avg-no-co" class="text-slate-200 font-bold">0.0</span></div>
+                            <div>Fléchettes: <span id="t1-stat-darts" class="text-slate-200">0</span></div>
+                            <div class="text-right">Doubles: <span id="t1-stat-co" class="text-slate-200">0%</span></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- BLOC DE SAISIE RESTRUCTURE TACTILE -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col md:flex-row gap-6 items-stretch grow">
+                    
+                    <!-- 1. Colonne de Gauche : Affichage, Raccourcis et Annulation -->
+                    <div class="w-full md:w-5/12 flex flex-col justify-between gap-4">
+                        <div class="space-y-4">
+                            <div>
+                                <span id="player-turn-banner" class="text-[11px] font-bold text-emerald-400 uppercase tracking-widest block mb-1 truncate">A TOI DE JOUER</span>
+                                <div class="relative">
+                                    <input type="number" id="score-input" inputmode="none" min="0" max="180" placeholder="0" class="w-full bg-slate-950 border-2 border-slate-800 rounded-xl h-16 px-4 text-4xl font-mono text-center font-bold text-slate-100 focus:outline-none focus:border-emerald-500 transition-colors shadow-inner">
+                                    <div id="bust-toast" class="hidden absolute inset-0 bg-rose-950/90 border border-rose-500 text-rose-200 rounded-xl text-xl font-bold tracking-widest flex items-center justify-center animate-pulse">MANQUÉ !</div>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <span class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Raccourcis rapides</span>
+                                <div class="flex flex-col gap-2 w-full">
+                                    <button onclick="pressQuick(26)" class="w-full h-16 bg-slate-800/80 active:bg-slate-700 active:scale-95 touch-manipulation rounded-xl text-slate-300 font-mono font-bold transition-all border border-slate-700/50 shadow-sm cursor-pointer text-lg">26</button>
+                                    <button onclick="pressQuick(41)" class="w-full h-16 bg-slate-800/80 active:bg-slate-700 active:scale-95 touch-manipulation rounded-xl text-slate-300 font-mono font-bold transition-all border border-slate-700/50 shadow-sm cursor-pointer text-lg">41</button>
+                                    <button onclick="pressQuick(60)" class="w-full h-16 bg-slate-800/80 active:bg-slate-700 active:scale-95 touch-manipulation rounded-xl text-cyan-400 font-mono font-bold transition-all border border-cyan-900/40 shadow-sm cursor-pointer text-lg">60</button>
+                                    <button onclick="pressQuick(100)" class="w-full h-16 bg-emerald-950/40 active:bg-emerald-900/60 active:scale-95 touch-manipulation rounded-xl text-emerald-400 font-mono font-bold transition-all border border-emerald-900/40 shadow-sm cursor-pointer text-lg">100</button>
+                                    <button onclick="pressQuick(180)" class="w-full h-16 bg-amber-500/20 active:bg-amber-500/40 active:scale-95 touch-manipulation rounded-xl text-amber-400 font-mono font-black transition-all border border-amber-500/40 shadow-sm flex items-center justify-center gap-2 cursor-pointer text-lg">180 🔥</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="undoLastTurn()" class="w-full bg-slate-800/50 hover:bg-slate-800 active:bg-slate-700 active:scale-95 touch-manipulation text-slate-300 py-3.5 rounded-xl font-bold transition-all text-xs flex items-center justify-center gap-2 border border-slate-700/50 cursor-pointer shadow-md">
+                            ↩️ Annuler le dernier lancer
+                        </button>
+                    </div>
+
+                    <!-- 2. Colonne de Droite : Pavé numérique + Actions équilibrées -->
+                    <div class="w-full md:w-7/12 flex flex-col gap-2 justify-between">
+                        <div class="grid grid-cols-3 gap-2 font-mono">
+                            <button onclick="pressKey(7)" class="bg-slate-950 active:bg-slate-800 active:scale-95 touch-manipulation text-2xl md:text-3xl h-14 md:h-16 rounded-xl text-slate-200 font-bold transition-all border border-slate-800/60 shadow-sm flex items-center justify-center cursor-pointer">7</button>
+                            <button onclick="pressKey(8)" class="bg-slate-950 active:bg-slate-800 active:scale-95 touch-manipulation text-2xl md:text-3xl h-14 md:h-16 rounded-xl text-slate-200 font-bold transition-all border border-slate-800/60 shadow-sm flex items-center justify-center cursor-pointer">8</button>
+                            <button onclick="pressKey(9)" class="bg-slate-950 active:bg-slate-800 active:scale-95 touch-manipulation text-2xl md:text-3xl h-14 md:h-16 rounded-xl text-slate-200 font-bold transition-all border border-slate-800/60 shadow-sm flex items-center justify-center cursor-pointer">9</button>
+                            
+                            <button onclick="pressKey(4)" class="bg-slate-950 active:bg-slate-800 active:scale-95 touch-manipulation text-2xl md:text-3xl h-14 md:h-16 rounded-xl text-slate-200 font-bold transition-all border border-slate-800/60 shadow-sm flex items-center justify-center cursor-pointer">4</button>
+                            <button onclick="pressKey(5)" class="bg-slate-950 active:bg-slate-800 active:scale-95 touch-manipulation text-2xl md:text-3xl h-14 md:h-16 rounded-xl text-slate-200 font-bold transition-all border border-slate-800/60 shadow-sm flex items-center justify-center cursor-pointer">5</button>
+                            <button onclick="pressKey(6)" class="bg-slate-950 active:bg-slate-800 active:scale-95 touch-manipulation text-2xl md:text-3xl h-14 md:h-16 rounded-xl text-slate-200 font-bold transition-all border border-slate-800/60 shadow-sm flex items-center justify-center cursor-pointer">6</button>
+                            
+                            <button onclick="pressKey(1)" class="bg-slate-950 active:bg-slate-800 active:scale-95 touch-manipulation text-2xl md:text-3xl h-14 md:h-16 rounded-xl text-slate-200 font-bold transition-all border border-slate-800/60 shadow-sm flex items-center justify-center cursor-pointer">1</button>
+                            <button onclick="pressKey(2)" class="bg-slate-950 active:bg-slate-800 active:scale-95 touch-manipulation text-2xl md:text-3xl h-14 md:h-16 rounded-xl text-slate-200 font-bold transition-all border border-slate-800/60 shadow-sm flex items-center justify-center cursor-pointer">2</button>
+                            <button onclick="pressKey(3)" class="bg-slate-950 active:bg-slate-800 active:scale-95 touch-manipulation text-2xl md:text-3xl h-14 md:h-16 rounded-xl text-slate-200 font-bold transition-all border border-slate-800/60 shadow-sm flex items-center justify-center cursor-pointer">3</button>
+                            
+                            <button onclick="pressKey(0)" class="col-span-3 bg-slate-950 active:bg-slate-800 active:scale-95 touch-manipulation text-2xl md:text-3xl h-14 md:h-16 rounded-xl text-slate-200 font-bold transition-all border border-slate-800/60 shadow-sm flex items-center justify-center cursor-pointer">0</button>
+                        </div>
+
+                        <div class="flex flex-col gap-2 mt-2">
+                            <button onclick="submitScore()" class="w-full bg-emerald-500 hover:bg-emerald-400 active:bg-emerald-400 active:scale-[0.98] touch-manipulation text-slate-950 h-20 rounded-xl font-black transition-all text-xl flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(16,185,129,0.15)] border border-emerald-400 cursor-pointer uppercase tracking-wider">
+                                Valider le score 🎯
+                            </button>
+                            <button onclick="pressKey('C')" class="w-full bg-rose-950/30 hover:bg-rose-950/50 active:bg-rose-900/60 active:scale-95 touch-manipulation text-rose-400 text-base font-sans font-bold h-16 rounded-xl transition-all border border-rose-900/50 shadow-sm flex items-center justify-center uppercase tracking-wider cursor-pointer">
+                                EFFACER
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="lg:col-span-4 h-full flex flex-col">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col grow min-h-[250px] lg:h-full">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5 border-b border-slate-800 pb-1.5">
+                        <span>📜</span> Historique du Match
+                    </h3>
+                    <div id="match-logs" class="space-y-1.5 overflow-y-auto grow font-mono text-xs pr-1 max-h-[250px] lg:max-h-[360px]">
+                        <div class="text-slate-500 text-center py-6">Aucun lancer</div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section id="screen-summary" class="hidden max-w-7xl w-full mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-5 md:p-6 shadow-2xl">
+            <div class="text-center mb-5">
+                <span class="text-3xl block mb-1">🏆</span>
+                <h2 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-amber-400 uppercase" id="match-winner-title">MATCH TERMINÉ !</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="md:col-span-2 overflow-x-auto">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 border-b border-slate-800 pb-1">📊 Totaux Globaux du Match</h3>
+                    <table class="w-full text-left font-mono text-xs md:text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-800/40 text-slate-400 text-[10px] uppercase">
+                                <th class="py-2 px-1">Stats globales</th>
+                                <th id="th-t0-name" class="py-2 px-1 text-emerald-400">Équipe 1</th>
+                                <th id="th-t1-name" class="py-2 px-1 text-cyan-400">Équipe 2</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/40 text-slate-200">
+                            <tr>
+                                <td class="py-2 px-1 text-slate-400 font-sans">Manches gagnées</td>
+                                <td id="summary-t0-legs" class="py-2 px-1 font-black text-base text-emerald-400">0</td>
+                                <td id="summary-t1-legs" class="py-2 px-1 font-black text-base text-cyan-400">0</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-1 text-slate-400 font-sans">Moyenne générale (Avec finish)</td>
+                                <td id="summary-t0-avg" class="py-2 px-1 font-bold">0.0</td>
+                                <td id="summary-t1-avg" class="py-2 px-1 font-bold">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-1 text-slate-400 font-sans">Moyenne pure (Sans finish)</td>
+                                <td id="summary-t0-avg-no-co" class="py-2 px-1 font-bold text-amber-400">0.0</td>
+                                <td id="summary-t1-avg-no-co" class="py-2 px-1 font-bold text-amber-400">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-1 text-slate-400 font-sans">Moyenne 9 premières fléchettes</td>
+                                <td id="summary-t0-avg9" class="py-2 px-1 font-bold text-cyan-400">-</td>
+                                <td id="summary-t1-avg9" class="py-2 px-1 font-bold text-cyan-400">-</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-1 text-slate-400 font-sans">Fléchettes lancées</td>
+                                <td id="summary-t0-darts" class="py-2 px-1">0</td>
+                                <td id="summary-t1-darts" class="py-2 px-1">0</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-1 text-slate-400 font-sans">Fermeture % (Doubles)</td>
+                                <td id="summary-t0-co" class="py-2 px-1">0%</td>
+                                <td id="summary-t1-co" class="py-2 px-1">0%</td>
+                            </tr>
+                            <tr class="text-[11px] text-slate-400">
+                                <td class="py-2 px-1 font-sans">180 / 140+ / 100+ / 60+</td>
+                                <td id="summary-t0-counts" class="py-2 px-1">0 / 0 / 0 / 0</td>
+                                <td id="summary-t1-counts" class="py-2 px-1">0 / 0 / 0 / 0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-slate-950/60 p-4 border border-slate-800 rounded-xl flex flex-col justify-between">
+                    <div>
+                        <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">⚡ Records du match</h4>
+                        <div class="space-y-3 font-mono text-xs">
+                            <div>
+                                <span class="text-slate-500 block text-[10px]">MEILLEUR LEG (ÉQUIPE 1)</span>
+                                <span id="summary-t0-best" class="text-slate-200 font-bold">N/A</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-500 block text-[10px]">MEILLEUR LEG (ÉQUIPE 2)</span>
+                                <span id="summary-t1-best" class="text-slate-200 font-bold">N/A</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <h3 class="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <span>👤</span> Détail par joueur (ce match)
+                </h3>
+                <div id="summary-players-table" class="overflow-x-auto border border-slate-800 rounded-xl bg-slate-950/40 font-mono text-[10px] md:text-xs"></div>
+            </div>
+
+            <div class="mt-6">
+                <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <span>📋</span> Détail des Statistiques par Manche
+                </h3>
+                <div class="overflow-x-auto border border-slate-800 rounded-xl bg-slate-950/40">
+                    <table class="w-full text-left font-mono text-[10px] md:text-xs">
+                        <thead class="bg-slate-950 text-slate-400 uppercase border-b border-slate-800">
+                            <tr>
+                                <th class="py-2 px-2 text-center border-r border-slate-800/50">Leg</th>
+                                <th class="py-2 px-2">Équipe (Finisher)</th>
+                                <th class="py-2 px-2 text-center">Fl (Tot)</th>
+                                <th class="py-2 px-2 text-center">Moy Gen</th>
+                                <th class="py-2 px-2 text-center" title="Moyenne sur les 9 premières fléchettes de la manche">Moy 9 1ères</th>
+                                <th class="py-2 px-2 text-center" title="Moyenne sur la descente (avant d'atteindre 170)">Moy Desc.</th>
+                                <th class="py-2 px-2 text-center" title="Moyenne dans la zone de finish (en dessous de 170)">Moy Fin.</th>
+                                <th class="py-2 px-2 text-center" title="Fléchettes utilisées sous 170">Fl &lt;170</th>
+                                <th class="py-2 px-2 text-center">Finish</th>
+                                <th class="py-2 px-2 text-right">Reste Adv.</th>
+                            </tr>
+                        </thead>
+                        <tbody id="legs-history-table-body" class="divide-y divide-slate-800/40 text-slate-300">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <button onclick="showSetupScreen()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-3.5 rounded-xl transition-all cursor-pointer text-center text-xs uppercase tracking-wider">
+                    ⚙️ Configuration Nouveau Match
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="modal-checkout" class="hidden fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-emerald-500 max-w-sm w-full rounded-2xl p-6 shadow-2xl shadow-emerald-900/50 text-center relative">
+            <h3 class="text-xl font-black mb-2 text-emerald-400">🎯 FINISH VALIDE !</h3>
+            <p class="text-slate-300 text-sm mb-6">Combien de fléchettes as-tu lancé lors de cette volée pour fermer ?</p>
+            <div class="grid grid-cols-3 gap-3">
+                <button onclick="finalizeWin(1)" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 rounded-xl text-xl transition-colors cursor-pointer border border-slate-700">1</button>
+                <button onclick="finalizeWin(2)" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 rounded-xl text-xl transition-colors cursor-pointer border border-slate-700">2</button>
+                <button onclick="finalizeWin(3)" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 rounded-xl text-xl transition-colors cursor-pointer border border-slate-700">3</button>
+            </div>
+            <button onclick="finalizeMissedDouble()" class="mt-4 w-full bg-amber-500/10 hover:bg-amber-500/20 active:scale-[0.98] touch-manipulation text-amber-400 text-xs font-bold py-3 rounded-xl border border-amber-500/30 transition-all cursor-pointer uppercase tracking-wide">
+                ⚠️ Je n'ai pas fini avec un double !
+            </button>
+            <button onclick="cancelCheckout()" class="mt-4 text-xs text-rose-400 hover:text-rose-300 font-bold uppercase tracking-wider cursor-pointer">Annuler la saisie</button>
+        </div>
+    </div>
+
+    <div id="modal-double-attempt" class="hidden fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-cyan-500 max-w-sm w-full rounded-2xl p-6 shadow-2xl shadow-cyan-900/50 text-center relative">
+            <h3 class="text-xl font-black mb-2 text-cyan-400">🎯 Tentatives de double</h3>
+            <p class="text-slate-300 text-sm mb-6">Sur cette volée, combien de fléchettes ont été lancées <span class="text-cyan-300 font-bold">sur un double</span> ?</p>
+            <div class="grid grid-cols-4 gap-2">
+                <button onclick="finalizeRegularTurn(0)" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 rounded-xl text-xl transition-colors cursor-pointer border border-slate-700">0</button>
+                <button onclick="finalizeRegularTurn(1)" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 rounded-xl text-xl transition-colors cursor-pointer border border-slate-700">1</button>
+                <button onclick="finalizeRegularTurn(2)" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 rounded-xl text-xl transition-colors cursor-pointer border border-slate-700">2</button>
+                <button onclick="finalizeRegularTurn(3)" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 rounded-xl text-xl transition-colors cursor-pointer border border-slate-700">3</button>
+            </div>
+            <button onclick="cancelDoubleAttemptPrompt()" class="mt-6 text-xs text-rose-400 hover:text-rose-300 font-bold uppercase tracking-wider cursor-pointer">Annuler la saisie</button>
+        </div>
+    </div>
+
+    <div id="modal-global" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 max-w-xl w-full rounded-2xl p-5 shadow-2xl relative">
+            <button onclick="document.getElementById('modal-global').classList.add('hidden')" class="absolute top-4 right-4 text-slate-500 hover:text-white cursor-pointer text-lg">✕</button>
+            <h3 class="text-lg font-bold mb-3 text-emerald-400">📊 Historique des matchs</h3>
+            <div id="global-stats-content" class="max-h-[250px] overflow-y-auto space-y-3 font-mono text-xs"></div>
+            <div class="mt-5 flex justify-between">
+                <button onclick="clearGlobalHistory()" class="text-xs text-rose-400 hover:text-rose-300 cursor-pointer">🗑️ Purger la mémoire</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-players" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-5 shadow-2xl relative">
+            <button onclick="document.getElementById('modal-players').classList.add('hidden')" class="absolute top-4 right-4 text-slate-500 hover:text-white cursor-pointer text-lg">✕</button>
+            <h3 class="text-lg font-bold mb-1 text-emerald-400">👤 Statistiques par joueur</h3>
+            <p class="text-[10px] text-slate-500 mb-3">Cumul sur tous les matchs joués depuis cette mise à jour (hors DartBot)</p>
+            <div id="players-stats-content" class="max-h-[350px] overflow-y-auto space-y-2 font-mono text-xs"></div>
+        </div>
+    </div>
+
+    <div id="modal-records" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-amber-700/50 max-w-xl w-full rounded-2xl p-5 shadow-2xl relative">
+            <button onclick="document.getElementById('modal-records').classList.add('hidden')" class="absolute top-4 right-4 text-slate-500 hover:text-white cursor-pointer text-lg">✕</button>
+            <h3 class="text-lg font-bold mb-3 text-amber-400">🏆 Records du club</h3>
+            <div id="records-content" class="max-h-[400px] overflow-y-auto space-y-3 font-mono text-xs"></div>
+        </div>
+    </div>
+
+
+    <script>
+
+        // =====================================================
+        // VERSION REFACTORISÉE STANDALONE
+        // - Corrections accessibilité
+        // - Font Awesome ajouté
+        // - Zoom mobile restauré
+        // - Moyennes darts officielles
+        // - Sécurisation DOM partielle
+        // - Préparation architecture maintenable
+        // =====================================================
+
+        // ======================
+        // CONFIGURATION
+        // ======================
+
+        const RAW_PLAYER_LIST = [
+            "Alexandre GARRY", "Alexiel PAVAGEAU", "Benjamin LAINÉ", "Christophe NOEL", "Céline MALLARD",
+            "David LEBALLONNIER", "Dimitri MENARD", "Flavien NARAS", "François-Xavier PAVAGEAU", "Gwenael HAMET",
+            "Ion PUSCASU", "Justin GOIZET", "Jérémy LEROUX", "Michel BUROT", "Mihail PUSCASU",
+            "Romuald CERISIER", "Tony SALLIER", "Yoann BONAVENTURE"
+        ];
+
+        const IMPOSSIBLE_SCORES = [163, 166, 169, 172, 173, 175, 176, 178, 179];
+        const IMPOSSIBLE_FINISHES = [169, 168, 166, 165, 163, 162, 159, 153];
+
+        let activeBot = null;
+        let matchMode = "simple"; 
+        let matchState = {};
+        let historyStack = [];
+        let legsDetailedData = [];
+        let pendingWinData = null; 
+        let pendingTurnData = null;
+        let availableVoices = [];
+        let voicesLoaded = false;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            populatePlayerSelects();
+            setMatchMode("simple");
+            if (window.speechSynthesis) {
+                window.speechSynthesis.onvoiceschanged = loadVoices;
+                // Le moteur TTS d'Android met parfois plus de temps a s'initialiser
+                // qu'un navigateur de bureau : plusieurs tentatives espacees.
+                setTimeout(loadVoices, 500);
+                setTimeout(loadVoices, 1500);
+                setTimeout(loadVoices, 3000);
+            }
+        });
+
+        function loadVoices() {
+            if (voicesLoaded) return;
+            availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length === 0) return;
+            voicesLoaded = true;
+
+            const select = document.getElementById('voice-select');
+            select.innerHTML = '<option value="">Voix par défaut du système</option>';
+            
+            const frVoices = availableVoices.filter(v => v.lang.startsWith('fr'));
+            const otherVoices = availableVoices.filter(v => !v.lang.startsWith('fr'));
+            
+            frVoices.forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v.voiceURI;
+                opt.textContent = `🇫🇷 ${v.name}`;
+                select.appendChild(opt);
+            });
+
+            otherVoices.forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v.voiceURI;
+                opt.textContent = `${v.lang.split('-')[0].toUpperCase()} - ${v.name}`;
+                select.appendChild(opt);
+            });
+
+            const savedVoiceURI = localStorage.getItem('darts_v5_preferred_voice');
+            if (savedVoiceURI && availableVoices.some(v => v.voiceURI === savedVoiceURI)) {
+                select.value = savedVoiceURI;
+            }
+
+            select.addEventListener('change', () => {
+                localStorage.setItem('darts_v5_preferred_voice', select.value);
+            });
+        }
+
+        function applyVoiceAndSpeak(u) {
+            const select = document.getElementById('voice-select');
+            if (select && select.value) {
+                const voice = availableVoices.find(v => v.voiceURI === select.value);
+                if (voice) u.voice = voice;
+            }
+            window.speechSynthesis.speak(u);
+        }
+
+        function populatePlayerSelects() {
+            const selects = ["p1-select", "p2-select", "p3-select", "p4-select"];
+            selects.forEach(id => {
+                const select = document.getElementById(id);
+                select.innerHTML = `<option value="">-- Choisir un joueur --</option>`;
+                select.innerHTML += `<option value="bot">🤖 DartBot (Ordinateur)</option>`; 
+                
+                RAW_PLAYER_LIST.forEach(fullName => {
+                    select.innerHTML += `<option value="${fullName}">${fullName}</option>`;
+                });
+                select.innerHTML += `<option value="CUSTOM">+ Saisir un joueur absent...</option>`;
+            });
+        }
+
+        function handlePlayerSelect(prefix) {
+            const select = document.getElementById(`${prefix}-select`);
+            const customInput = document.getElementById(`${prefix}-custom`);
+            
+            if (select.value === "CUSTOM") {
+                customInput.classList.remove('hidden');
+                customInput.required = true;
+                customInput.focus();
+            } else {
+                customInput.classList.add('hidden');
+                customInput.required = false;
+            }
+
+            if (prefix === 'p2') {
+                const botConfigContainer = document.getElementById('bot-config-container');
+                if (botConfigContainer) {
+                    if (select.value === 'bot') {
+                        botConfigContainer.classList.remove('hidden'); 
+                    } else {
+                        botConfigContainer.classList.add('hidden'); 
+                    }
+                }
+            }
+        }
+
+        function setMatchMode(mode) {
+            matchMode = mode;
+            const btnSimple = document.getElementById('mode-simple');
+            const btnDouble = document.getElementById('mode-double');
+            const p3Zone = document.getElementById('p3-container');
+            const p4Zone = document.getElementById('p4-container');
+            const l1 = document.getElementById('label-team-1');
+            const l2 = document.getElementById('label-team-2');
+
+            if (mode === "double") {
+                btnDouble.className = "w-full py-3 rounded-lg font-bold text-xs md:text-sm uppercase tracking-wider transition-all cursor-pointer bg-cyan-500 text-slate-950";
+                btnSimple.className = "w-full py-3 rounded-lg font-bold text-xs md:text-sm uppercase tracking-wider transition-all cursor-pointer text-slate-400 hover:text-slate-200";
+                p3Zone.classList.remove('hidden');
+                p4Zone.classList.remove('hidden');
+                l1.innerText = "Équipe 1 (2 Joueurs)";
+                l2.innerText = "Équipe 2 (2 Joueurs)";
+            } else {
+                btnSimple.className = "w-full py-3 rounded-lg font-bold text-xs md:text-sm uppercase tracking-wider transition-all cursor-pointer bg-emerald-500 text-slate-950";
+                btnDouble.className = "w-full py-3 rounded-lg font-bold text-xs md:text-sm uppercase tracking-wider transition-all cursor-pointer text-slate-400 hover:text-slate-200";
+                p3Zone.classList.add('hidden');
+                p4Zone.classList.add('hidden');
+                l1.innerText = "Joueur 1";
+                l2.innerText = "Joueur 2";
+            }
+        }
+
+        function getPlayerNameFromSelect(prefix) {
+            const select = document.getElementById(`${prefix}-select`);
+            if (select.value === "CUSTOM") {
+                return document.getElementById(`${prefix}-custom`).value.trim() || `Invité (${prefix.toUpperCase()})`;
+            }
+            return select.value || `Joueur ${prefix.slice(1)}`;
+        }
+
+        function createTeamObject(name, rosterArray) {
+            return {
+                name: name,
+                roster: rosterArray,      
+                shooterIndex: 0,         
+                score: 501,
+                legsWon: 0,
+                totalDartsThrown: 0,       
+                dartsThrownInLeg: 0,       
+                scoresHistory: [],         
+                noCoScoresHistory: [],     
+                noCoTotalDarts: 0,
+                dartsPerLegTrack: [],
+                doubleAttempts: 0,
+                doublesHit: 0,
+                first9PerLeg: [],
+                counters: { 180: 0, 140: 0, 100: 0, 60: 0 },
+                legScoresList: [],
+                legStats: {
+                    scores: [],
+                    descenteScores: [],
+                    finishScores: [],
+                    dartsTotal: 0,
+                    dartsUnder170: 0,
+                    firstTurnScore: null,
+                    checkoutScore: null,
+                    finishingPlayer: null
+                }
+            };
+        }
+
+        function getPlayerStats(name) {
+            if (name === 'bot') return null;
+            if (!matchState.playerStats) matchState.playerStats = {};
+            if (!matchState.playerStats[name]) {
+                matchState.playerStats[name] = {
+                    darts: 0,
+                    points: 0,
+                    noCoPoints: 0,
+                    noCoDarts: 0,
+                    doubleAttempts: 0,
+                    doublesHit: 0,
+                    counters: { 180: 0, 140: 0, 100: 0, 60: 0 }
+                };
+            }
+            return matchState.playerStats[name];
+        }
+
+        // ======================
+        // GAME ENGINE
+        // ======================
+
+        function setupMatch(e) {
+            e.preventDefault();
+
+            const n1 = getPlayerNameFromSelect('p1');
+            const n2 = getPlayerNameFromSelect('p2');
+            const p2Value = document.getElementById('p2-select').value;
+            if (p2Value === 'bot') {
+                const botAvg = parseInt(document.getElementById('bot-avg-slider').value);
+                activeBot = new DartsBot(botAvg);
+            } else {
+                activeBot = null;
+            }
+            
+            let team1, team2;
+            if (matchMode === "double") {
+                const n3 = getPlayerNameFromSelect('p3');
+                const n4 = getPlayerNameFromSelect('p4');
+                team1 = createTeamObject(`${n1} / ${n3}`, [n1, n3]);
+                team2 = createTeamObject(`${n2} / ${n4}`, [n2, n4]);
+            } else {
+                team1 = createTeamObject(n1, [n1]);
+                team2 = createTeamObject(n2, [n2]);
+            }
+
+            const format = parseInt(document.getElementById('match-format').value);
+
+            matchState = {
+                mode: matchMode,
+                format: format,
+                legsToWin: Math.floor(format / 2) + 1,
+                legStarterTeamIndex: 0,
+                activeTeamIndex: 0, 
+                isOver: false,
+                teams: [team1, team2],
+                playerStats: {}
+            };
+
+            historyStack = [];
+            legsDetailedData = [];
+            pendingWinData = null;
+            pendingTurnData = null;
+
+            document.getElementById('display-t0-name').innerText = team1.name;
+            document.getElementById('display-t1-name').innerText = team2.name;
+            
+            resetLegScores();
+            updateUI();
+
+            document.getElementById('screen-setup').classList.add('hidden');
+            document.getElementById('screen-summary').classList.add('hidden');
+            document.getElementById('screen-game').classList.remove('hidden');
+
+            document.getElementById('match-logs').innerHTML = "";
+            speakFrench("Match commencé !");
+
+            checkBotTurn();
+        }
+
+        function resetLegScores() {
+            matchState.teams.forEach(t => {
+                t.score = 501;
+                t.dartsThrownInLeg = 0;
+                t.legScoresList = [];
+                t.legStats = {
+                    scores: [],
+                    descenteScores: [],
+                    finishScores: [],
+                    dartsTotal: 0,
+                    dartsUnder170: 0,
+                    firstTurnScore: null,
+                    checkoutScore: null,
+                    finishingPlayer: null
+                };
+            });
+        }
+
+        const inputField = document.getElementById('score-input');
+        function pressKey(key) {
+            if (key === 'C') inputField.value = "";
+            else if (inputField.value.length < 3) inputField.value += key;
+        }
+        function pressQuick(val) {
+            inputField.value = val;
+        }
+
+        function submitScore() {
+            if (matchState.isOver) return;
+
+            const val = parseInt(inputField.value);
+            
+            if (isNaN(val) || val < 0 || val > 180) {
+                alert("Erreur : Entrez un score de volée valide (0-180).");
+                return;
+            }
+            if (IMPOSSIBLE_SCORES.includes(val)) {
+                alert(`Le score global de ${val} est impossible avec 3 fléchettes.`);
+                return;
+            }
+
+            const tIndex = matchState.activeTeamIndex;
+            const team = matchState.teams[tIndex];
+            const opp = matchState.teams[tIndex === 0 ? 1 : 0];
+            const shooterName = team.roster[team.shooterIndex];
+            const oldScore = team.score;
+            const targetScore = oldScore - val;
+
+            if (targetScore === 0) {
+                if (oldScore > 170) {
+                    alert(`Finition impossible : Sortie max autorisée à 170.`);
+                    return;
+                }
+                if (IMPOSSIBLE_FINISHES.includes(oldScore)) {
+                    alert(`Finition impossible : Le score restant de ${oldScore} n'est pas fermable.`);
+                    return;
+                }
+                
+                pendingWinData = { val, tIndex, team, opp, shooterName, oldScore, targetScore };
+                
+                inputField.value = "";
+
+                if (shooterName === 'bot') {
+                    let minDarts = 1;
+                    if (oldScore > 50) minDarts = 2; 
+                    if (oldScore > 110) minDarts = 3; 
+                    
+                    let botDartsForDouble = minDarts;
+                    if (minDarts === 1) botDartsForDouble = Math.floor(Math.random() * 3) + 1; 
+                    else if (minDarts === 2) botDartsForDouble = Math.floor(Math.random() * 2) + 2; 
+                    
+                    setTimeout(() => finalizeWin(botDartsForDouble), 1500);
+                    return;
+                }
+
+                document.getElementById('modal-checkout').classList.remove('hidden');
+                return;
+            }
+
+            const isBust = (targetScore === 1 || targetScore < 0);
+            const wasInCheckoutRange = (oldScore <= 170 && !IMPOSSIBLE_FINISHES.includes(oldScore));
+
+            pendingTurnData = { val, team, shooterName, oldScore, targetScore, isBust };
+
+            if (wasInCheckoutRange) {
+                inputField.value = "";
+
+                if (shooterName === 'bot') {
+                    // Le bot n'a pas besoin de saisie manuelle : on considère que
+                    // toutes les fléchettes de la volée visaient un double dès lors
+                    // qu'il évoluait déjà en zone de fermeture.
+                    finalizeRegularTurn(3);
+                    return;
+                }
+
+                document.getElementById('modal-double-attempt').classList.remove('hidden');
+                return;
+            }
+
+            finalizeRegularTurn(0);
+        }
+
+        function finalizeRegularTurn(doubleDartsThisTurn) {
+            document.getElementById('modal-double-attempt').classList.add('hidden');
+            if (!pendingTurnData) return;
+
+            const { val, team, shooterName, oldScore, targetScore, isBust } = pendingTurnData;
+            pendingTurnData = null;
+
+            const dartsThisTurn = 3;
+            const pStats = getPlayerStats(shooterName);
+
+            historyStack.push(structuredClone(matchState));
+
+            if (team.legStats.scores.length === 0) team.legStats.firstTurnScore = isBust ? 0 : val;
+            
+            team.legStats.scores.push(isBust ? 0 : val);
+            team.legStats.dartsTotal += dartsThisTurn;
+
+            if (oldScore > 170) {
+                team.legStats.descenteScores.push(isBust ? 0 : val);
+            } else {
+                team.legStats.finishScores.push(isBust ? 0 : val);
+                team.legStats.dartsUnder170 += dartsThisTurn;
+            }
+
+            if (isBust) {
+                team.dartsThrownInLeg += dartsThisTurn;
+                team.totalDartsThrown += dartsThisTurn;
+                team.legScoresList.push(0);
+                team.scoresHistory.push(0);
+
+                if (oldScore > 170) {
+                    team.noCoScoresHistory.push(0);
+                    team.noCoTotalDarts += dartsThisTurn;
+                }
+
+                team.doubleAttempts += doubleDartsThisTurn;
+
+                if (pStats) {
+                    pStats.darts += dartsThisTurn;
+                    pStats.doubleAttempts += doubleDartsThisTurn;
+                    if (oldScore > 170) pStats.noCoDarts += dartsThisTurn;
+                }
+                
+                speakFrench("Manqué");
+                showBustToast();
+                logTurn(shooterName, val, oldScore, true);
+                cycleShooterAndTeam();
+                return;
+            }
+
+            team.dartsThrownInLeg += dartsThisTurn;
+            team.totalDartsThrown += dartsThisTurn;
+            team.score = targetScore;
+            team.scoresHistory.push(val);
+            team.legScoresList.push(val);
+            
+            if (oldScore > 170 && targetScore > 0) {
+                team.noCoScoresHistory.push(val);
+                team.noCoTotalDarts += dartsThisTurn;
+            }
+
+            if (val === 180) team.counters[180]++;
+            else if (val >= 140) team.counters[140]++;
+            else if (val >= 100) team.counters[100]++;
+            else if (val >= 60) team.counters[60]++;
+
+            team.doubleAttempts += doubleDartsThisTurn;
+
+            if (pStats) {
+                pStats.darts += dartsThisTurn;
+                pStats.points += val;
+                pStats.doubleAttempts += doubleDartsThisTurn;
+                if (oldScore > 170 && targetScore > 0) {
+                    pStats.noCoPoints += val;
+                    pStats.noCoDarts += dartsThisTurn;
+                }
+                if (val === 180) pStats.counters[180]++;
+                else if (val >= 140) pStats.counters[140]++;
+                else if (val >= 100) pStats.counters[100]++;
+                else if (val >= 60) pStats.counters[60]++;
+            }
+
+            announceLegScore(val);
+            logTurn(shooterName, val, team.score, false);
+            if (val === 180) triggerFestive180();
+
+            cycleShooterAndTeam();
+        }
+
+        function cancelDoubleAttemptPrompt() {
+            document.getElementById('modal-double-attempt').classList.add('hidden');
+            pendingTurnData = null;
+            inputField.value = "";
+        }
+
+        function finalizeWin(dartsThisTurn) {
+            document.getElementById('modal-checkout').classList.add('hidden');
+            if (!pendingWinData) return;
+
+            const { val, team, shooterName, oldScore, targetScore } = pendingWinData;
+
+            historyStack.push(structuredClone(matchState));
+
+            if (team.legStats.scores.length === 0) team.legStats.firstTurnScore = val;
+            
+            team.legStats.scores.push(val);
+            team.legStats.dartsTotal += dartsThisTurn;
+            team.legStats.finishScores.push(val);
+            team.legStats.dartsUnder170 += dartsThisTurn;
+
+            team.dartsThrownInLeg += dartsThisTurn;
+            team.totalDartsThrown += dartsThisTurn;
+            team.score = targetScore;
+            team.scoresHistory.push(val);
+            team.legScoresList.push(val);
+            
+            team.doubleAttempts += dartsThisTurn;
+            team.doublesHit++;
+
+            if (val === 180) team.counters[180]++;
+            else if (val >= 140) team.counters[140]++;
+            else if (val >= 100) team.counters[100]++;
+            else if (val >= 60) team.counters[60]++;
+
+            const pStatsWin = getPlayerStats(shooterName);
+            if (pStatsWin) {
+                pStatsWin.darts += dartsThisTurn;
+                pStatsWin.points += val;
+                pStatsWin.doubleAttempts += dartsThisTurn;
+                pStatsWin.doublesHit++;
+                if (val === 180) pStatsWin.counters[180]++;
+                else if (val >= 140) pStatsWin.counters[140]++;
+                else if (val >= 100) pStatsWin.counters[100]++;
+                else if (val >= 60) pStatsWin.counters[60]++;
+            }
+
+            announceLegScore(val);
+            logTurn(shooterName, val, team.score, false);
+            if (val === 180) triggerFestive180();
+
+            team.legStats.checkoutScore = val;
+            team.legStats.finishingPlayer = shooterName;
+            team.legsWon++;
+            team.dartsPerLegTrack.push(team.legStats.dartsTotal);
+            
+            const buildTeamData = (t) => {
+                const dartsDescente = t.legStats.dartsTotal - t.legStats.dartsUnder170;
+                const avgG = t.legStats.dartsTotal > 0 ? ((t.legStats.scores.reduce((a,b)=>a+b,0) / t.legStats.dartsTotal) * 3).toFixed(1) : "0.0";
+                const avgD = dartsDescente > 0 ? ((t.legStats.descenteScores.reduce((a,b)=>a+b,0) / dartsDescente) * 3).toFixed(1) : "-";
+                const avgF = t.legStats.dartsUnder170 > 0 ? ((t.legStats.finishScores.reduce((a,b)=>a+b,0) / t.legStats.dartsUnder170) * 3).toFixed(1) : "-";
+
+                const first3Turns = t.legStats.scores.slice(0, 3);
+                let avg9Display = '-';
+                if (first3Turns.length === 3) {
+                    const avg9Numeric = first3Turns.reduce((a,b)=>a+b,0) / 3;
+                    t.first9PerLeg.push(avg9Numeric);
+                    avg9Display = avg9Numeric.toFixed(1);
+                }
+
+                return {
+                    name: t.name,
+                    finisherName: t.legStats.finishingPlayer,
+                    checkout: t.legStats.checkoutScore,
+                    totalDarts: t.legStats.dartsTotal,
+                    avgGen: avgG,
+                    avgFirst: avg9Display,
+                    avgDescente: avgD,
+                    avgFinish: avgF,
+                    dartsUnder170: t.legStats.dartsUnder170,
+                    scoreLeft: t.score
+                };
+            };
+
+            legsDetailedData.push({
+                legNumber: matchState.teams[0].legsWon + matchState.teams[1].legsWon,
+                teamsData: [
+                    buildTeamData(matchState.teams[0]),
+                    buildTeamData(matchState.teams[1])
+                ]
+            });
+
+            speakFrench("Manches gagnées");
+            
+            inputField.value = "";
+
+            if (team.legsWon === matchState.legsToWin) {
+                endMatch(team);
+                pendingWinData = null;
+                return;
+            } else {
+                team.shooterIndex = (team.shooterIndex + 1) % team.roster.length; 
+                matchState.legStarterTeamIndex = matchState.legStarterTeamIndex === 0 ? 1 : 0;
+                matchState.activeTeamIndex = matchState.legStarterTeamIndex;
+                
+                resetLegScores();
+                updateUI();
+                pendingWinData = null;
+                checkBotTurn();
+                return;
+            }
+        }
+
+        function finalizeMissedDouble() {
+            document.getElementById('modal-checkout').classList.add('hidden');
+            if (!pendingWinData) return;
+
+            const { team, shooterName, oldScore } = pendingWinData;
+            pendingWinData = null;
+
+            const dartsThisTurn = 3;
+            const pStats = getPlayerStats(shooterName);
+
+            historyStack.push(structuredClone(matchState));
+
+            if (team.legStats.scores.length === 0) team.legStats.firstTurnScore = 0;
+
+            team.legStats.scores.push(0);
+            team.legStats.dartsTotal += dartsThisTurn;
+            team.legStats.finishScores.push(0);
+            team.legStats.dartsUnder170 += dartsThisTurn;
+
+            team.dartsThrownInLeg += dartsThisTurn;
+            team.totalDartsThrown += dartsThisTurn;
+            team.legScoresList.push(0);
+            team.scoresHistory.push(0);
+
+            // La volée entière visait la fermeture : elle compte comme des tentatives de double,
+            // mais aucune n'est retenue comme réussie (doublesHit inchangé).
+            team.doubleAttempts += dartsThisTurn;
+
+            if (pStats) {
+                pStats.darts += dartsThisTurn;
+                pStats.doubleAttempts += dartsThisTurn;
+            }
+
+            speakFrench("Manqué");
+            showBustToast();
+            logTurn(shooterName, 0, oldScore, true);
+            cycleShooterAndTeam();
+        }
+
+        function cancelCheckout() {
+            document.getElementById('modal-checkout').classList.add('hidden');
+            pendingWinData = null;
+            inputField.value = ""; 
+        }
+
+        function triggerFestive180() {
+            const screen = document.getElementById('screen-game');
+            screen.classList.add('animate-festive');
+            setTimeout(() => {
+                screen.classList.remove('animate-festive');
+            }, 2500);
+        }
+
+        function cycleShooterAndTeam() {
+            const team = matchState.teams[matchState.activeTeamIndex];
+            team.shooterIndex = (team.shooterIndex + 1) % team.roster.length;
+            matchState.activeTeamIndex = matchState.activeTeamIndex === 0 ? 1 : 0;
+            
+            inputField.value = "";
+            updateUI();
+            announceTurnIfFinishPossible();
+            checkBotTurn();
+        }
+
+        function undoLastTurn() {
+            if (historyStack.length === 0) return;
+            if (!confirm("Voulez-vous vraiment annuler le dernier lancer ?")) return;
+            
+            matchState = historyStack.pop();
+            const logs = document.getElementById('match-logs');
+            if (logs.firstChild) logs.removeChild(logs.firstChild);
+            updateUI();
+        }
+
+        // ======================
+        // UI RENDER
+        // ======================
+
+        function updateUI() {
+            for (let i = 0; i < 2; i++) {
+                const team = matchState.teams[i];
+                document.getElementById(`display-t${i}-score`).innerText = team.score;
+                document.getElementById(`display-t${i}-legs`).innerText = team.legsWon;
+                document.getElementById(`display-t${i}-shooter`).innerText = `Tireur : ${team.roster[team.shooterIndex]}`;
+
+                const avg = team.totalDartsThrown > 0 ? ((team.scoresHistory.reduce((a,b)=>a+b,0)/team.totalDartsThrown)*3).toFixed(1) : "0.0";
+                const avgNoCo = team.noCoTotalDarts > 0 ? ((team.noCoScoresHistory.reduce((a,b)=>a+b,0)/team.noCoTotalDarts)*3).toFixed(1) : "0.0";
+                const co = team.doubleAttempts > 0 ? Math.round((team.doublesHit / team.doubleAttempts)*100) : 0;
+
+                document.getElementById(`t${i}-stat-avg`).innerText = avg;
+                document.getElementById(`t${i}-stat-avg-no-co`).innerText = avgNoCo;
+                document.getElementById(`t${i}-stat-darts`).innerText = team.totalDartsThrown;
+                document.getElementById(`t${i}-stat-co`).innerText = `${co}%`;
+
+                const card = document.getElementById(`card-t${i}`);
+                const indicator = document.getElementById('active-indicator-t' + i);
+                if (i === matchState.activeTeamIndex && !matchState.isOver) {
+                    card.className = "bg-slate-900 border-2 border-emerald-500 rounded-2xl p-4 md:p-5 relative overflow-hidden shadow-xl shadow-emerald-950/20";
+                    indicator.classList.remove('opacity-0');
+                    document.getElementById('player-turn-banner').innerText = `À TOI DE JOUER : ${team.roster[team.shooterIndex].toUpperCase()}`;
+                } else {
+                    card.className = "bg-slate-900 border-2 border-slate-800 rounded-2xl p-4 md:p-5 relative overflow-hidden opacity-75";
+                    indicator.classList.add('opacity-0');
+                }
+            }
+        }
+
+        function logTurn(name, val, rest, isBust) {
+            const container = document.getElementById('match-logs');
+            const row = document.createElement('div');
+            row.className = "flex justify-between items-center bg-slate-950/40 border border-slate-800/60 rounded-xl p-2 md:p-2.5";
+            if (isBust) {
+                row.innerHTML = `<span class="text-slate-400 truncate max-w-[40%]">${name}</span> <span class="text-rose-500 font-bold bg-rose-950/30 px-2 py-0.5 rounded text-[10px]">MANQUÉ</span> <span class="text-slate-500 font-semibold">Reste: ${rest}</span>`;
+            } else if (val === 0) {
+                row.innerHTML = `<span class="text-slate-400 truncate max-w-[40%]">${name}</span> <span class="text-amber-500 font-bold bg-amber-950/30 px-2 py-0.5 rounded text-[10px]">TOF 🦆</span> <span class="text-slate-400 font-semibold">Reste: ${rest}</span>`;
+            } else {
+                row.innerHTML = `<span class="text-slate-400 truncate max-w-[40%]">${name}</span> <span class="text-emerald-400 font-bold bg-emerald-950/20 px-2 py-0.5 rounded">+${val}</span> <span class="text-slate-400 font-semibold">Reste: ${rest}</span>`;
+            }
+            container.insertBefore(row, container.firstChild);
+        }
+
+        function showBustToast() {
+            const t = document.getElementById('bust-toast');
+            t.classList.remove('hidden');
+            setTimeout(() => t.classList.add('hidden'), 1100);
+        }
+
+        // =====================================================
+        // MOTEUR AUDIO — MP3 enregistrés, avec repli automatique
+        // sur la voix de synthèse si un fichier n'existe pas
+        // =====================================================
+        const AUDIO_BASE = 'audio/';
+        const _audioPlayer = new Audio();
+        _audioPlayer.preload = 'auto';
+        let _audioUnlocked = false;
+        let _pendingOnEnd = null;
+        let _pendingOnError = null;
+
+        _audioPlayer.addEventListener('ended', () => {
+            const cb = _pendingOnEnd;
+            _pendingOnEnd = null; _pendingOnError = null;
+            if (cb) cb();
+        });
+        _audioPlayer.addEventListener('error', () => {
+            const cb = _pendingOnError;
+            _pendingOnEnd = null; _pendingOnError = null;
+            if (cb) cb();
+        });
+
+        // Android bloque la lecture audio tant qu'il n'y a pas eu d'interaction :
+        // on "déverrouille" en jouant un fichier existant en volume 0 au premier toucher.
+        function _unlockAudio() {
+            if (_audioUnlocked) return;
+            _audioPlayer.src = AUDIO_BASE + 's_100.mp3';
+            _audioPlayer.volume = 0;
+            const p = _audioPlayer.play();
+            if (p) p.then(() => {
+                _audioPlayer.pause();
+                _audioPlayer.volume = 1;
+                _audioUnlocked = true;
+            }).catch(() => {});
+            document.removeEventListener('touchstart', _unlockAudio);
+            document.removeEventListener('click', _unlockAudio);
+        }
+        document.addEventListener('touchstart', _unlockAudio, { once: true });
+        document.addEventListener('click', _unlockAudio, { once: true });
+
+        // Parle un texte via la synthèse vocale et appelle onEnd() une fois terminé.
+        function speakThenCall(text, ttsOpts, onEnd) {
+            if (!('speechSynthesis' in window)) { if (onEnd) onEnd(); return; }
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'fr-FR';
+            if (ttsOpts) Object.assign(u, ttsOpts);
+            u.onend = () => { if (onEnd) onEnd(); };
+            u.onerror = () => { if (onEnd) onEnd(); };
+            applyVoiceAndSpeak(u);
+        }
+
+        // Joue un MP3 ; si le fichier n'existe pas (ou échoue), parle fallbackText à la
+        // place. Appelle onEnd() une fois que le son (MP3 ou repli vocal) est terminé.
+        function playMP3OrSpeak(filename, fallbackText, onEnd, ttsOpts) {
+            _audioPlayer.pause();
+            _pendingOnEnd = onEnd || null;
+            _pendingOnError = () => speakThenCall(fallbackText, ttsOpts, onEnd);
+            _audioPlayer.src = AUDIO_BASE + filename;
+            _audioPlayer.volume = 1;
+            const p = _audioPlayer.play();
+            if (p) p.catch(() => {
+                const cb = _pendingOnError;
+                _pendingOnEnd = null; _pendingOnError = null;
+                if (cb) cb();
+            });
+        }
+
+        // Enchaîne plusieurs étapes [{file, fallbackText, ttsOpts}], chacune avec son
+        // propre repli vocal si le MP3 correspondant manque.
+        function playSequence(steps, index = 0) {
+            if (index >= steps.length) return;
+            const step = steps[index];
+            playMP3OrSpeak(step.file, step.fallbackText, () => playSequence(steps, index + 1), step.ttsOpts);
+        }
+
+        const SPECIAL_SOUNDS = {
+            'Match commencé !':          { file: 's_match_commence.mp3', text: 'Match commencé !' },
+            'Manqué':                    { file: 's_manque.mp3',          text: 'Manqué' },
+            'Manches gagnées':           { file: 's_manche_gagnee.mp3',   text: 'Manches gagnées' },
+            'Match gagné':                { file: 's_match_gagne.mp3',     text: 'Match gagné' },
+            'Bravo tu as fait une TOF':   { file: 's_tof.mp3',             text: 'Bravo tu as fait une TOF' },
+        };
+
+        const VARIANTS_180 = ['s_180_1.mp3', 's_180_2.mp3', 's_180_3.mp3'];
+
+        // Prénom du joueur → fichier MP3 dédié. Prénom absent de la liste → repli TTS
+        // automatique (le fichier vide échoue toujours à charger, ce qui déclenche
+        // proprement le repli vocal du prénom).
+        const PLAYER_VOICE_MAP = {
+            'Alexandre': 'p_alexandre.mp3', 'Alexiel': 'p_alexiel.mp3', 'Benjamin': 'p_benjamin.mp3',
+            'Christophe': 'p_christophe.mp3', 'Céline': 'p_celine.mp3', 'David': 'p_david.mp3',
+            'Dimitri': 'p_dimitri.mp3', 'Flavien': 'p_flavien.mp3', 'François-Xavier': 'p_francois_xavier.mp3',
+            'Gwenael': 'p_gwenael.mp3', 'Ion': 'p_ion.mp3', 'Justin': 'p_justin.mp3',
+            'Jérémy': 'p_jeremy.mp3', 'Michel': 'p_michel.mp3', 'Mihail': 'p_mihail.mp3',
+            'Romuald': 'p_romuald.mp3', 'Tony': 'p_tony.mp3', 'Yoann': 'p_yoann.mp3',
+        };
+
+        function announceLegScore(s) {
+            window.speechSynthesis && window.speechSynthesis.cancel();
+
+            if (s === 0) {
+                playMP3OrSpeak('s_tof.mp3', 'Bravo tu as fait une TOF', null, { rate: 0.70, pitch: 1.1 });
+                return;
+            }
+            if (s === 180) {
+                const variant = VARIANTS_180[Math.floor(Math.random() * VARIANTS_180.length)];
+                playMP3OrSpeak(variant, 'Cent quatre-vingts !', null, { rate: 0.65, pitch: 1.35 });
+                return;
+            }
+            playMP3OrSpeak('s_' + s + '.mp3', s.toString(), null);
+        }
+
+        function announceTurnIfFinishPossible() {
+            if (matchState.isOver) return;
+
+            const team = matchState.teams[matchState.activeTeamIndex];
+            const score = team.score;
+            const shooterName = team.roster[team.shooterIndex];
+
+            if (!shooterName || shooterName === 'bot') return;
+            if (score > 170 || IMPOSSIBLE_FINISHES.includes(score)) return;
+
+            const firstName = shooterName.split(' ')[0];
+            const playerMp3 = PLAYER_VOICE_MAP[firstName] || '';
+
+            setTimeout(() => {
+                playSequence([
+                    { file: playerMp3, fallbackText: firstName },
+                    { file: 's_il_reste.mp3', fallbackText: 'il reste' },
+                    { file: 's_' + score + '.mp3', fallbackText: score.toString() },
+                ]);
+            }, 100);
+        }
+
+        function speakFrench(m) {
+            const entry = SPECIAL_SOUNDS[m];
+            if (entry) {
+                playMP3OrSpeak(entry.file, entry.text, null);
+            } else {
+                speakThenCall(m, null, null);
+            }
+        }
+
+        function endMatch(winner) {
+            matchState.isOver = true;
+            speakFrench("Match gagné");
+
+            // Nettoyage immédiat du champ texte pour éviter la rémanence sur la partie suivante
+            inputField.value = "";
+
+            document.getElementById('screen-game').classList.add('hidden');
+            document.getElementById('screen-summary').classList.remove('hidden');
+            document.getElementById('match-winner-title').innerText = `${winner.name} A GAGNÉ !`;
+
+            document.getElementById('th-t0-name').innerText = matchState.teams[0].name;
+            document.getElementById('th-t1-name').innerText = matchState.teams[1].name;
+
+            for (let i = 0; i < 2; i++) {
+                const t = matchState.teams[i];
+                const avg = t.totalDartsThrown > 0 ? ((t.scoresHistory.reduce((a,b)=>a+b,0)/t.totalDartsThrown)*3).toFixed(1) : "0.0";
+                const avgNoCo = t.noCoTotalDarts > 0 ? ((t.noCoScoresHistory.reduce((a,b)=>a+b,0)/t.noCoTotalDarts)*3).toFixed(1) : "0.0";
+                const avg9 = t.first9PerLeg.length > 0 ? (t.first9PerLeg.reduce((a,b)=>a+b,0)/t.first9PerLeg.length).toFixed(1) : "-";
+                const co = t.doubleAttempts > 0 ? Math.round((t.doublesHit / t.doubleAttempts)*100) : 0;
+                const best = t.dartsPerLegTrack.length > 0 ? Math.min(...t.dartsPerLegTrack) : "N/A";
+
+                document.getElementById(`summary-t${i}-legs`).innerText = t.legsWon;
+                document.getElementById(`summary-t${i}-darts`).innerText = t.totalDartsThrown;
+                document.getElementById(`summary-t${i}-avg`).innerText = avg;
+                document.getElementById(`summary-t${i}-avg-no-co`).innerText = avgNoCo;
+                document.getElementById(`summary-t${i}-avg9`).innerText = avg9;
+                document.getElementById(`summary-t${i}-co`).innerText = `${co}% (${t.doublesHit}/${t.doubleAttempts})`;
+                document.getElementById(`summary-t${i}-best`).innerText = best !== "N/A" ? `${best} fléchettes` : "N/A";
+                document.getElementById(`summary-t${i}-counts`).innerText = `${t.counters[180]} / ${t.counters[140]}+ / ${t.counters[100]}+ / ${t.counters[60]}+`;
+            }
+
+            renderPlayerStatsTable(document.getElementById('summary-players-table'), matchState.playerStats);
+
+            const tableBody = document.getElementById('legs-history-table-body');
+            tableBody.innerHTML = "";
+            legsDetailedData.forEach(leg => {
+                leg.teamsData.forEach((td, idx) => {
+                    const isWinner = (td.scoreLeft === 0);
+                    const bgClass = isWinner ? 'bg-emerald-900/10' : 'bg-transparent';
+                    const nameColor = isWinner ? 'text-emerald-400 font-bold' : 'text-slate-400';
+                    const finisherText = td.finisherName ? `<br><span class="text-[9px] text-emerald-500 font-bold tracking-wider">🎯 Finisher: ${td.finisherName}</span>` : '';
+                    
+                    tableBody.innerHTML += `
+                        <tr class="${bgClass} border-b border-slate-800/40">
+                            ${idx === 0 ? `<td rowspan="2" class="py-2.5 px-2 font-bold text-slate-500 border-r border-slate-800/50 text-center bg-slate-950/30 align-middle text-lg">${leg.legNumber}</td>` : ''}
+                            <td class="py-2.5 px-2 leading-tight align-middle">
+                                <span class="${nameColor} text-xs uppercase">${td.name}</span>
+                                ${finisherText}
+                            </td>
+                            <td class="py-2.5 px-2 text-center align-middle text-slate-300 font-bold">${td.totalDarts}</td>
+                            <td class="py-2.5 px-2 text-center align-middle text-emerald-400 font-black">${td.avgGen}</td>
+                            <td class="py-2.5 px-2 text-center align-middle text-slate-400">${td.avgFirst}</td>
+                            <td class="py-2.5 px-2 text-center align-middle text-slate-400">${td.avgDescente}</td>
+                            <td class="py-2.5 px-2 text-center align-middle text-amber-400">${td.avgFinish}</td>
+                            <td class="py-2.5 px-2 text-center align-middle text-slate-400">${td.dartsUnder170}</td>
+                            <td class="py-2.5 px-2 text-center align-middle font-bold ${isWinner ? 'text-emerald-400' : 'text-slate-700'}">${isWinner ? td.checkout : '-'}</td>
+                            <td class="py-2.5 px-2 text-right align-middle font-black ${isWinner ? 'text-slate-700' : 'text-amber-500'}">${isWinner ? '-' : td.scoreLeft}</td>
+                        </tr>
+                    `;
+                });
+            });
+
+            saveToLocalStorage(avgMatchRecord());
+        }
+
+        function avgMatchRecord() {
+            const t0 = matchState.teams[0];
+            const t1 = matchState.teams[1];
+            
+            const avg0 = t0.totalDartsThrown > 0 ? ((t0.scoresHistory.reduce((a,b)=>a+b,0)/t0.totalDartsThrown)*3).toFixed(1) : "0.0";
+            const avgNoCo0 = t0.noCoTotalDarts > 0 ? ((t0.noCoScoresHistory.reduce((a,b)=>a+b,0)/t0.noCoTotalDarts)*3).toFixed(1) : "0.0";
+            const avg9_0 = t0.first9PerLeg.length > 0 ? (t0.first9PerLeg.reduce((a,b)=>a+b,0)/t0.first9PerLeg.length).toFixed(1) : "-";
+            const co0 = t0.doubleAttempts > 0 ? Math.round((t0.doublesHit / t0.doubleAttempts)*100) : 0;
+            const best0 = t0.dartsPerLegTrack.length > 0 ? Math.min(...t0.dartsPerLegTrack) : "N/A";
+            
+            const avg1 = t1.totalDartsThrown > 0 ? ((t1.scoresHistory.reduce((a,b)=>a+b,0)/t1.totalDartsThrown)*3).toFixed(1) : "0.0";
+            const avgNoCo1 = t1.noCoTotalDarts > 0 ? ((t1.noCoScoresHistory.reduce((a,b)=>a+b,0)/t1.noCoTotalDarts)*3).toFixed(1) : "0.0";
+            const avg9_1 = t1.first9PerLeg.length > 0 ? (t1.first9PerLeg.reduce((a,b)=>a+b,0)/t1.first9PerLeg.length).toFixed(1) : "-";
+            const co1 = t1.doubleAttempts > 0 ? Math.round((t1.doublesHit / t1.doubleAttempts)*100) : 0;
+            const best1 = t1.dartsPerLegTrack.length > 0 ? Math.min(...t1.dartsPerLegTrack) : "N/A";
+
+            const listDarts = legsDetailedData.map(l => l.teamsData.find(t=>t.scoreLeft === 0)?.totalDarts + "fl").join(" | ");
+            const listOppScores = legsDetailedData.map(l => l.teamsData.find(t=>t.scoreLeft > 0)?.scoreLeft + "pts").join(" | ");
+
+            const detailedLegsText = legsDetailedData.map(l => {
+                let txt = `[Manche ${l.legNumber}]`;
+                l.teamsData.forEach(t => {
+                    if (t.scoreLeft === 0) {
+                        txt += `\n- GAGNANT: ${t.name} (Finisher: ${t.finisherName} | Checkout: ${t.checkout} | Total fléchettes: ${t.totalDarts} | Fléchettes <170: ${t.dartsUnder170} | Moyenne: ${t.avgGen} | Moy 9-1ères: ${t.avgFirst} | Moy descente: ${t.avgDescente} | Moy finish: ${t.avgFinish})`;
+                    } else {
+                        txt += `\n- PERDANT: ${t.name} (Reste: ${t.scoreLeft} pts | Total fléchettes: ${t.totalDarts} | Moyenne: ${t.avgGen} | Moy 9-1ères: ${t.avgFirst} | Moy descente: ${t.avgDescente})`;
+                    }
+                });
+                return txt;
+            }).join("\n\n");
+
+            return {
+                date: new Date().toLocaleString('fr-FR'),
+                mode: matchState.mode,
+                
+                team1Name: t0.name,
+                team1Legs: t0.legsWon,
+                team1Darts: t0.totalDartsThrown,
+                team1AvgWithCo: avg0,
+                team1AvgNoCo: avgNoCo0,
+                team1Avg9: avg9_0,
+                team1CheckoutPct: co0,
+                team1DoublesHit: t0.doublesHit,
+                team1DoubleAttempts: t0.doubleAttempts,
+                team1BestLeg: best0,
+                team1_180s: t0.counters[180],
+                team1_140s: t0.counters[140],
+                team1_100s: t0.counters[100],
+                team1_60s: t0.counters[60],
+
+                team2Name: t1.name,
+                team2Legs: t1.legsWon,
+                team2Darts: t1.totalDartsThrown,
+                team2AvgWithCo: avg1,
+                team2AvgNoCo: avgNoCo1,
+                team2Avg9: avg9_1,
+                team2CheckoutPct: co1,
+                team2DoublesHit: t1.doublesHit,
+                team2DoubleAttempts: t1.doubleAttempts,
+                team2BestLeg: best1,
+                team2_180s: t1.counters[180],
+                team2_140s: t1.counters[140],
+                team2_100s: t1.counters[100],
+                team2_60s: t1.counters[60],
+
+                detailsDartsFinish: listDarts,
+                detailsOppScoresLeft: listOppScores,
+                detailedLegsText: detailedLegsText,
+                
+                rawLegsData: JSON.parse(JSON.stringify(legsDetailedData)),
+                playerStatsSnapshot: JSON.parse(JSON.stringify(matchState.playerStats || {}))
+            };
+        }
+
+        async function saveOrDownloadFile(filename, content, mimeType) {
+            const isNativeApp = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+
+            if (isNativeApp) {
+                try {
+                    const { Filesystem } = window.Capacitor.Plugins;
+                    await Filesystem.writeFile({
+                        path: filename,
+                        data: content,
+                        directory: 'DOCUMENTS',
+                        encoding: 'utf8'
+                    });
+
+                    if (window.Capacitor.Plugins.Share) {
+                        const uriResult = await Filesystem.getUri({ path: filename, directory: 'DOCUMENTS' });
+                        await window.Capacitor.Plugins.Share.share({
+                            title: filename,
+                            url: uriResult.uri
+                        });
+                    } else {
+                        alert(`Fichier enregistré : ${filename} (dossier Documents)`);
+                    }
+                } catch (err) {
+                    alert("Erreur lors de l'enregistrement du fichier : " + err.message);
+                }
+                return;
+            }
+
+            // Web classique : téléchargement navigateur (comportement d'origine)
+            const blob = new Blob([content], { type: mimeType });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.setAttribute("download", filename);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function exportHistoryToCSV() {
+            const history = JSON.parse(localStorage.getItem('darts_v5_history')) || [];
+            if (history.length === 0) {
+                alert("Aucune donnée à extraire.");
+                return;
+            }
+
+            let maxLegs = 0;
+            history.forEach(m => {
+                if (m.rawLegsData && m.rawLegsData.length > maxLegs) {
+                    maxLegs = m.rawLegsData.length;
+                }
+            });
+
+            const headers = [
+                "Date", "Mode", 
+                "Equipe 1", "Score E1", "Fléchettes E1", "Moy (Avec Finish) E1", "Moy (Pure) E1", "% Réussite E1", "Meilleure Manche E1", "180s E1", "140+ E1", "100+ E1", "60+ E1",
+                "Equipe 2", "Score E2", "Fléchettes E2", "Moy (Avec Finish) E2", "Moy (Pure) E2", "% Réussite E2", "Meilleure Manche E2", "180s E2", "140+ E2", "100+ E2", "60+ E2"
+            ];
+
+            for (let i = 1; i <= maxLegs; i++) {
+                headers.push(
+                    `Manche ${i} - Gagnant`, 
+                    `Manche ${i} - Finisher`, 
+                    `Manche ${i} - Checkout`,
+                    `Manche ${i} - Fléchettes Gagnant`,
+                    `Manche ${i} - Moyenne Gagnant`,
+                    `Manche ${i} - Fléchettes < 170 Gagnant`,
+                    `Manche ${i} - Reste Perdant`
+                );
+            }
+            
+            headers.push("Résumé Complet Brut"); 
+
+            const safeString = (str) => `"${(str || '').toString().replace(/"/g, '""')}"`;
+
+            const rows = history.map(m => {
+                const rowData = [
+                    safeString(m.date), safeString(m.mode), 
+                    
+                    safeString(m.team1Name), m.team1Legs || 0, m.team1Darts || 0, m.team1AvgWithCo || 0, m.team1AvgNoCo || 0, 
+                    `${m.team1CheckoutPct || 0}%`, m.team1BestLeg || 'N/A', m.team1_180s || 0, m.team1_140s || 0, m.team1_100s || 0, m.team1_60s || 0,
+                    
+                    safeString(m.team2Name), m.team2Legs || 0, m.team2Darts || 0, m.team2AvgWithCo || 0, m.team2AvgNoCo || 0, 
+                    `${m.team2CheckoutPct || 0}%`, m.team2BestLeg || 'N/A', m.team2_180s || 0, m.team2_140s || 0, m.team2_100s || 0, m.team2_60s || 0
+                ];
+
+                for (let i = 0; i < maxLegs; i++) {
+                    if (m.rawLegsData && m.rawLegsData[i]) {
+                        const leg = m.rawLegsData[i];
+                        const winner = leg.teamsData.find(t => t.scoreLeft === 0);
+                        const loser = leg.teamsData.find(t => t.scoreLeft > 0);
+                        
+                        if (winner && loser) {
+                            rowData.push(
+                                safeString(winner.name), 
+                                safeString(winner.finisherName || winner.name), 
+                                winner.checkout,
+                                winner.totalDarts,
+                                `"${winner.avgGen}"`,
+                                winner.dartsUnder170,
+                                loser.scoreLeft
+                            );
+                        } else {
+                            rowData.push("", "", "", "", "", "", ""); 
+                        }
+                    } else {
+                        rowData.push("", "", "", "", "", "", ""); 
+                    }
+                }
+
+                rowData.push(safeString(m.detailedLegsText)); 
+                return rowData;
+            });
+
+            const csvContent = '\ufeff' + [headers.join(";"), ...rows.map(e => e.join(";"))].join("\n");
+            saveOrDownloadFile(`darts_pro_stats_${new Date().toISOString().split('T')[0]}.csv`, csvContent, 'text/csv;charset=utf-8;');
+        }
+
+        function saveToLocalStorage(record) {
+            let history = JSON.parse(localStorage.getItem('darts_v5_history')) || [];
+            history.push(record);
+            localStorage.setItem('darts_v5_history', JSON.stringify(history));
+        }
+
+        document.getElementById('btn-stats-globales').addEventListener('click', () => {
+            const target = document.getElementById('global-stats-content');
+            target.innerHTML = "";
+            const history = JSON.parse(localStorage.getItem('darts_v5_history')) || [];
+
+            if (history.length === 0) {
+                target.innerHTML = "<div class='text-slate-500 py-4 italic text-center'>Aucun match enregistré.</div>";
+            } else {
+                history.reverse().forEach(m => {
+                    target.innerHTML += `
+                        <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
+                            <div class="text-[10px] text-slate-500">${m.date} (${m.mode.toUpperCase()})</div>
+                            <div class="flex justify-between font-bold text-xs">
+                                <span class="${m.team1Legs > m.team2Legs ? 'text-emerald-400':''} truncate max-w-[45%]">${m.team1Name} (${m.team1Legs})</span>
+                                <span class="text-slate-500 text-[10px]">vs</span>
+                                <span class="${m.team2Legs > m.team1Legs ? 'text-cyan-400':''} truncate max-w-[45%]">${m.team2Name} (${m.team2Legs})</span>
+                            </div>
+                            <div class="grid grid-cols-2 text-[10px] text-slate-400 border-t border-slate-900 pt-1">
+                                <div>E1 Moy: ${m.team1AvgWithCo} (Pur: ${m.team1AvgNoCo})</div>
+                                <div class="text-right">E2 Moy: ${m.team2AvgWithCo} (Pur: ${m.team2AvgNoCo})</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('modal-global').classList.remove('hidden');
+        });
+
+        function clearGlobalHistory() {
+            if (confirm("Voulez-vous purger définitivement l'historique ?")) {
+                localStorage.removeItem('darts_v5_history');
+                document.getElementById('global-stats-content').innerHTML = "";
+            }
+        }
+
+        function renderPlayerStatsTable(container, playerStatsObj) {
+            const names = Object.keys(playerStatsObj || {});
+            if (names.length === 0) {
+                container.innerHTML = "<div class='text-slate-500 text-center py-4 italic text-xs'>Aucune donnée joueur pour ce match.</div>";
+                return;
+            }
+            names.sort((a, b) => {
+                const pa = playerStatsObj[a], pb = playerStatsObj[b];
+                const avgA = pa.darts > 0 ? pa.points / pa.darts : 0;
+                const avgB = pb.darts > 0 ? pb.points / pb.darts : 0;
+                return avgB - avgA;
+            });
+            const rows = names.map(name => {
+                const p = playerStatsObj[name];
+                const avg = p.darts > 0 ? ((p.points / p.darts) * 3).toFixed(1) : "0.0";
+                const avgNoCo = p.noCoDarts > 0 ? ((p.noCoPoints / p.noCoDarts) * 3).toFixed(1) : "-";
+                const co = p.doubleAttempts > 0 ? Math.round((p.doublesHit / p.doubleAttempts) * 100) : 0;
+                return `
+                    <tr class="border-b border-slate-800/40">
+                        <td class="py-2 px-2 text-slate-100 font-bold">${name}</td>
+                        <td class="py-2 px-2 text-center text-emerald-400 font-black">${avg}</td>
+                        <td class="py-2 px-2 text-center text-amber-400">${avgNoCo}</td>
+                        <td class="py-2 px-2 text-center text-slate-300">${p.darts}</td>
+                        <td class="py-2 px-2 text-center text-cyan-400">${co}% (${p.doublesHit}/${p.doubleAttempts})</td>
+                        <td class="py-2 px-2 text-center text-slate-400">${p.counters[180]}/${p.counters[140]}+/${p.counters[100]}+/${p.counters[60]}+</td>
+                    </tr>
+                `;
+            }).join("");
+            container.innerHTML = `
+                <table class="w-full text-left">
+                    <thead class="bg-slate-950 text-slate-400 uppercase border-b border-slate-800">
+                        <tr>
+                            <th class="py-2 px-2">Joueur</th>
+                            <th class="py-2 px-2 text-center">Moy +fin</th>
+                            <th class="py-2 px-2 text-center">Moy -fin</th>
+                            <th class="py-2 px-2 text-center">Fléch.</th>
+                            <th class="py-2 px-2 text-center">Doubles</th>
+                            <th class="py-2 px-2 text-center">180/140+/100+/60+</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800/40 text-slate-300">${rows}</tbody>
+                </table>
+            `;
+        }
+
+        document.getElementById('btn-players-stats').addEventListener('click', () => {
+            const target = document.getElementById('players-stats-content');
+            const history = JSON.parse(localStorage.getItem('darts_v5_history')) || [];
+
+            const aggregated = {};
+            history.forEach(m => {
+                if (!m.playerStatsSnapshot) return;
+                Object.keys(m.playerStatsSnapshot).forEach(name => {
+                    const p = m.playerStatsSnapshot[name];
+                    if (!aggregated[name]) {
+                        aggregated[name] = { darts: 0, points: 0, noCoPoints: 0, noCoDarts: 0, doubleAttempts: 0, doublesHit: 0, counters: { 180: 0, 140: 0, 100: 0, 60: 0 }, matches: 0 };
+                    }
+                    const a = aggregated[name];
+                    a.darts += p.darts;
+                    a.points += p.points;
+                    a.noCoPoints += p.noCoPoints;
+                    a.noCoDarts += p.noCoDarts;
+                    a.doubleAttempts += p.doubleAttempts;
+                    a.doublesHit += p.doublesHit;
+                    a.counters[180] += p.counters[180];
+                    a.counters[140] += p.counters[140];
+                    a.counters[100] += p.counters[100];
+                    a.counters[60] += p.counters[60];
+                    a.matches++;
+                });
+            });
+
+            const names = Object.keys(aggregated);
+            if (names.length === 0) {
+                target.innerHTML = "<div class='text-slate-500 py-4 italic text-center'>Pas encore de données par joueur — jouez un match pour commencer à les enregistrer.</div>";
+            } else {
+                names.sort((a, b) => {
+                    const avgA = aggregated[a].darts > 0 ? aggregated[a].points / aggregated[a].darts : 0;
+                    const avgB = aggregated[b].darts > 0 ? aggregated[b].points / aggregated[b].darts : 0;
+                    return avgB - avgA;
+                });
+                target.innerHTML = `
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-950 text-slate-400 uppercase border-b border-slate-800">
+                            <tr>
+                                <th class="py-2 px-2">Joueur</th>
+                                <th class="py-2 px-2 text-center">Moy +fin</th>
+                                <th class="py-2 px-2 text-center">Moy -fin</th>
+                                <th class="py-2 px-2 text-center">Matchs</th>
+                                <th class="py-2 px-2 text-center">Doubles</th>
+                                <th class="py-2 px-2 text-center">180/140+/100+/60+</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/40 text-slate-300">
+                            ${names.map(name => {
+                                const a = aggregated[name];
+                                const avg = a.darts > 0 ? ((a.points / a.darts) * 3).toFixed(1) : "0.0";
+                                const avgNoCo = a.noCoDarts > 0 ? ((a.noCoPoints / a.noCoDarts) * 3).toFixed(1) : "-";
+                                const co = a.doubleAttempts > 0 ? Math.round((a.doublesHit / a.doubleAttempts) * 100) : 0;
+                                return `
+                                    <tr class="border-b border-slate-800/40">
+                                        <td class="py-2 px-2 text-slate-100 font-bold">${name}</td>
+                                        <td class="py-2 px-2 text-center text-emerald-400 font-black">${avg}</td>
+                                        <td class="py-2 px-2 text-center text-amber-400">${avgNoCo}</td>
+                                        <td class="py-2 px-2 text-center text-slate-300">${a.matches}</td>
+                                        <td class="py-2 px-2 text-center text-cyan-400">${co}% (${a.doublesHit}/${a.doubleAttempts})</td>
+                                        <td class="py-2 px-2 text-center text-slate-400">${a.counters[180]}/${a.counters[140]}+/${a.counters[100]}+/${a.counters[60]}+</td>
+                                    </tr>
+                                `;
+                            }).join("")}
+                        </tbody>
+                    </table>
+                `;
+            }
+            document.getElementById('modal-players').classList.remove('hidden');
+        });
+
+        document.getElementById('btn-records').addEventListener('click', () => {
+            const target = document.getElementById('records-content');
+            const history = JSON.parse(localStorage.getItem('darts_v5_history')) || [];
+
+            if (history.length === 0) {
+                target.innerHTML = "<div class='text-slate-500 py-4 italic text-center'>Aucun match enregistré.</div>";
+                document.getElementById('modal-records').classList.remove('hidden');
+                return;
+            }
+
+            let bestAvg = null, bestCheckout = null, bestLeg = null, most180sMatch = null;
+
+            history.forEach(m => {
+                [
+                    { name: m.team1Name, avg: parseFloat(m.team1AvgWithCo), best: m.team1BestLeg, c180: m.team1_180s },
+                    { name: m.team2Name, avg: parseFloat(m.team2AvgWithCo), best: m.team2BestLeg, c180: m.team2_180s }
+                ].forEach(entry => {
+                    if (!isNaN(entry.avg) && (!bestAvg || entry.avg > bestAvg.value)) {
+                        bestAvg = { value: entry.avg, name: entry.name, date: m.date };
+                    }
+                    if (typeof entry.best === 'number' && (!bestLeg || entry.best < bestLeg.value)) {
+                        bestLeg = { value: entry.best, name: entry.name, date: m.date };
+                    }
+                    if (typeof entry.c180 === 'number' && entry.c180 > 0 && (!most180sMatch || entry.c180 > most180sMatch.value)) {
+                        most180sMatch = { value: entry.c180, name: entry.name, date: m.date };
+                    }
+                });
+
+                if (m.rawLegsData) {
+                    m.rawLegsData.forEach(leg => {
+                        leg.teamsData.forEach(td => {
+                            if (td.scoreLeft === 0 && typeof td.checkout === 'number') {
+                                if (!bestCheckout || td.checkout > bestCheckout.value) {
+                                    bestCheckout = { value: td.checkout, name: td.finisherName || td.name, date: m.date };
+                                }
+                            }
+                        });
+                    });
+                }
+            });
+
+            let bestPlayerAvg = null, mostPlayerDoubles = null;
+            const playerAgg = {};
+            history.forEach(m => {
+                if (!m.playerStatsSnapshot) return;
+                Object.keys(m.playerStatsSnapshot).forEach(name => {
+                    const p = m.playerStatsSnapshot[name];
+                    if (!playerAgg[name]) playerAgg[name] = { darts: 0, points: 0, c180: 0 };
+                    playerAgg[name].darts += p.darts;
+                    playerAgg[name].points += p.points;
+                    playerAgg[name].c180 += p.counters[180];
+                });
+            });
+            Object.keys(playerAgg).forEach(name => {
+                const a = playerAgg[name];
+                if (a.darts > 0) {
+                    const avg = (a.points / a.darts) * 3;
+                    if (!bestPlayerAvg || avg > bestPlayerAvg.value) bestPlayerAvg = { value: avg, name };
+                }
+                if (a.c180 > 0 && (!mostPlayerDoubles || a.c180 > mostPlayerDoubles.value)) mostPlayerDoubles = { value: a.c180, name };
+            });
+
+            const rows = [];
+            const card = (label, valueHtml, name, date, colorClass) => `
+                <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl">
+                    <span class="text-slate-500 block text-[10px] uppercase tracking-wider">${label}</span>
+                    <span class="${colorClass} font-black text-lg">${valueHtml}</span>
+                    <span class="text-slate-300"> — ${name}</span>
+                    ${date ? `<div class="text-[10px] text-slate-600 mt-0.5">${date}</div>` : ''}
+                </div>
+            `;
+
+            if (bestAvg) rows.push(card('🏆 Meilleure moyenne (un match)', bestAvg.value.toFixed(1), bestAvg.name, bestAvg.date, 'text-amber-400'));
+            if (bestCheckout) rows.push(card('🎯 Meilleur checkout', bestCheckout.value, bestCheckout.name, bestCheckout.date, 'text-amber-400'));
+            if (bestLeg) rows.push(card('⚡ Manche la plus rapide', `${bestLeg.value} fléchettes`, bestLeg.name, bestLeg.date, 'text-amber-400'));
+            if (most180sMatch) rows.push(card('🔥 Plus de 180 sur un match', most180sMatch.value, most180sMatch.name, most180sMatch.date, 'text-amber-400'));
+            if (bestPlayerAvg) rows.push(card('👤 Meilleure moyenne individuelle (cumul)', bestPlayerAvg.value.toFixed(1), bestPlayerAvg.name, null, 'text-cyan-400'));
+            if (mostPlayerDoubles) rows.push(card('👤 Le plus de 180 (cumul individuel)', mostPlayerDoubles.value, mostPlayerDoubles.name, null, 'text-cyan-400'));
+
+            target.innerHTML = rows.length > 0 ? rows.join("") : "<div class='text-slate-500 py-4 italic text-center'>Pas encore assez de données pour établir des records.</div>";
+            document.getElementById('modal-records').classList.remove('hidden');
+        });
+
+        function showSetupScreen() {
+            // Sécurité : Vider le champ d'écriture lors du retour à l'écran principal
+            inputField.value = "";
+            document.getElementById('screen-game').classList.add('hidden');
+            document.getElementById('screen-summary').classList.add('hidden');
+            document.getElementById('screen-setup').classList.remove('hidden');
+        }
+
+        function exportHistoryToJSON() {
+            const history = localStorage.getItem('darts_v5_history');
+            if (!history || history === "[]") {
+                alert("Aucune donnée à exporter.");
+                return;
+            }
+            saveOrDownloadFile(`darts_db_backup_${new Date().toISOString().split('T')[0]}.json`, history, 'application/json');
+        }
+
+        function exportLegsDetailedToCSV() {
+            const history = JSON.parse(localStorage.getItem('darts_v5_history')) || [];
+            if (history.length === 0) {
+                alert("Aucune donnée à extraire.");
+                return;
+            }
+
+            const headers = [
+                "Date Match", "Mode de Jeu", "Numéro Manche", "Nom Equipe/Joueur", "Statut", 
+                "Finisher Exact (Si double)", "Score Restant Adversaire", "Score Finish (Checkout)", 
+                "Fléchettes Totales", "Fléchettes < 170", "Moyenne Générale", 
+                "Moyenne 3 Premières", "Moyenne Descente (> 170)", "Moyenne Finish (< 170)"
+            ];
+
+            const rows = [];
+
+            history.forEach(match => {
+                if (match.rawLegsData) {
+                    match.rawLegsData.forEach(leg => {
+                        leg.teamsData.forEach(team => {
+                            const isWinner = team.scoreLeft === 0;
+                            rows.push([
+                                `"${match.date}"`, `"${match.mode}"`, leg.legNumber, `"${team.name}"`,
+                                `"${isWinner ? "GAGNANT" : "PERDANT"}"`, `"${team.finisherName || ""}"`,
+                                team.scoreLeft, isWinner ? team.checkout : "", team.totalDarts, team.dartsUnder170,
+                                `"${team.avgGen}"`, `"${team.avgFirst}"`, `"${team.avgDescente}"`, `"${team.avgFinish}"`
+                            ]);
+                        });
+                    });
+                }
+            });
+
+            if (rows.length === 0) {
+                alert("Aucun détail de manche n'a été trouvé. Jouez une partie pour générer ces données !");
+                return;
+            }
+
+            const csvContent = '\ufeff' + [headers.join(";"), ...rows.map(e => e.join(";"))].join("\n");
+            saveOrDownloadFile(`darts_pro_details_joueurs_${new Date().toISOString().split('T')[0]}.csv`, csvContent, 'text/csv;charset=utf-8;');
+        }
+
+        async function sendCSVsByEmail() {
+            const history = JSON.parse(localStorage.getItem('darts_v5_history')) || [];
+            if (history.length === 0) {
+                alert("Aucune donnée à envoyer.");
+                return;
+            }
+
+            const btn = document.getElementById('btn-email-csv');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `⏳ Envoi en cours...`;
+            btn.classList.add('opacity-50', 'pointer-events-none');
+
+            let maxLegs = 0;
+            history.forEach(m => { if (m.rawLegsData && m.rawLegsData.length > maxLegs) maxLegs = m.rawLegsData.length; });
+            const headersGlobal = [
+                "Date", "Mode", "Equipe 1", "Score E1", "Fléchettes E1", "Moy (Avec Finish) E1", "Moy (Pure) E1", "% Réussite E1", "Meilleure Manche E1", "180s E1", "140+ E1", "100+ E1", "60+ E1",
+                "Equipe 2", "Score E2", "Fléchettes E2", "Moy (Avec Finish) E2", "Moy (Pure) E2", "% Réussite E2", "Meilleure Manche E2", "180s E2", "140+ E2", "100+ E2", "60+ E2"
+            ];
+            for (let i = 1; i <= maxLegs; i++) headersGlobal.push(`Manche ${i} - Gagnant`, `Manche ${i} - Finisher`, `Manche ${i} - Checkout`, `Manche ${i} - Fléchettes Gagnant`, `Manche ${i} - Moyenne Gagnant`, `Manche ${i} - Fléchettes < 170 Gagnant`, `Manche ${i} - Reste Perdant`);
+            headersGlobal.push("Résumé Complet Brut"); 
+
+            const safeString = (str) => `"${(str || '').toString().replace(/"/g, '""')}"`;
+            const rowsGlobal = history.map(m => {
+                const rowData = [
+                    safeString(m.date), safeString(m.mode), safeString(m.team1Name), m.team1Legs || 0, m.team1Darts || 0, m.team1AvgWithCo || 0, m.team1AvgNoCo || 0, `${m.team1CheckoutPct || 0}%`, m.team1BestLeg || 'N/A', m.team1_180s || 0, m.team1_140s || 0, m.team1_100s || 0, m.team1_60s || 0,
+                    safeString(m.team2Name), m.team2Legs || 0, m.team2Darts || 0, m.team2AvgWithCo || 0, m.team2AvgNoCo || 0, `${m.team2CheckoutPct || 0}%`, m.team2BestLeg || 'N/A', m.team2_180s || 0, m.team2_140s || 0, m.team2_100s || 0, m.team2_60s || 0
+                ];
+                for (let i = 0; i < maxLegs; i++) {
+                    if (m.rawLegsData && m.rawLegsData[i]) {
+                        const leg = m.rawLegsData[i];
+                        const winner = leg.teamsData.find(t => t.scoreLeft === 0);
+                        const loser = leg.teamsData.find(t => t.scoreLeft > 0);
+                        if (winner && loser) rowData.push(safeString(winner.name), safeString(winner.finisherName || winner.name), winner.checkout, winner.totalDarts, `"${winner.avgGen}"`, winner.dartsUnder170, loser.scoreLeft);
+                        else rowData.push("", "", "", "", "", "", ""); 
+                    } else rowData.push("", "", "", "", "", "", ""); 
+                }
+                rowData.push(safeString(m.detailedLegsText)); 
+                return rowData;
+            });
+            const csvGlobalStr = [headersGlobal.join(";"), ...rowsGlobal.map(e => e.join(";"))].join("\n");
+
+            const headersDetailed = [
+                "Date Match", "Mode de Jeu", "Numéro Manche", "Nom Equipe/Joueur", "Statut", 
+                "Finisher Exact (Si double)", "Score Restant Adversaire", "Score Finish (Checkout)", 
+                "Fléchettes Totales", "Fléchettes < 170", "Moyenne Générale", 
+                "Moyenne 3 Premières", "Moyenne Descente (> 170)", "Moyenne Finish (< 170)"
+            ];
+            const rowsDetailed = [];
+            history.forEach(match => {
+                if (match.rawLegsData) {
+                    match.rawLegsData.forEach(leg => {
+                        leg.teamsData.forEach(team => {
+                            const isWinner = team.scoreLeft === 0;
+                            rowsDetailed.push([
+                                `"${match.date}"`, `"${match.mode}"`, leg.legNumber, `"${team.name}"`, `"${isWinner ? "GAGNANT" : "PERDANT"}"`, `"${team.finisherName || ""}"`,
+                                team.scoreLeft, isWinner ? team.checkout : "", team.totalDarts, team.dartsUnder170, `"${team.avgGen}"`, `"${team.avgFirst}"`, `"${team.avgDescente}"`, `"${team.avgFinish}"`
+                            ]);
+                        });
+                    });
+                }
+            });
+            const csvDetailedStr = [headersDetailed.join(";"), ...rowsDetailed.map(e => e.join(";"))].join("\n");
+
+            const GOOGLE_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbw2bbiAVCBh4MGarkVjOcXl_E_WEmTXzItimhYBFn53gNBHsEMeFNt61TEfZN0o1_v4/exec"; 
+            const TARGET_EMAILS = "lesflechettesdemeilleraye@gmail.com, sportif.lfm44@gmail.com"; 
+
+            try {
+                await fetch(GOOGLE_WEBHOOK_URL, {
+                    method: "POST",
+                    mode: "no-cors", 
+                    headers: { "Content-Type": "text/plain;charset=utf-8" }, 
+                    body: JSON.stringify({
+                        emails: TARGET_EMAILS,
+                        csvGlobal: csvGlobalStr,
+                        csvDetailed: csvDetailedStr
+                    })
+                });
+                alert("✅ Requête expédiée ! Vérifiez vos boîtes mail d'ici 1 à 2 minutes.");
+            } catch (error) {
+                alert("❌ Erreur de réseau : " + error.message);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.classList.remove('opacity-50', 'pointer-events-none');
+            }
+        }
+
+        class DartsBot {
+            constructor(targetAverage) {
+                this.average = targetAverage;
+                this.stdev = Math.max(10, 30 - (targetAverage / 4)); 
+            }
+
+            _randomGaussian(mean, stdev) {
+                const u = 1 - Math.random();
+                const v = Math.random();
+                const z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+                return Math.round(z * stdev + mean);
+            }
+
+            playTurn(currentScore) {
+                const invalidCheckouts = [169, 168, 166, 165, 163, 159];
+                
+                if (currentScore <= 170 && !invalidCheckouts.includes(currentScore)) {
+                    let checkoutChance = (this.average / 150) * 0.4;
+                    if (currentScore > 100) checkoutChance *= 0.1; 
+                    else if (currentScore > 60) checkoutChance *= 0.3;
+                    else if (currentScore === 50) checkoutChance *= 0.2;
+
+                    if (Math.random() < checkoutChance) {
+                        return currentScore;
+                    } else {
+                        if (currentScore <= 40 && currentScore % 2 === 0 && Math.random() < 0.6) {
+                            return currentScore / 2;
+                        } else {
+                            const scoreRate = Math.floor(Math.random() * (currentScore - 2));
+                            return Math.max(0, scoreRate); 
+                        }
+                    }
+                }
+
+                let score = this._randomGaussian(this.average, this.stdev);
+                if (Math.random() < 0.15) {
+                    if (this.average < 50) score = [11, 22, 26, 30][Math.floor(Math.random() * 4)];
+                    else if (this.average < 75) score = [41, 45, 60, 81][Math.floor(Math.random() * 4)];
+                    else score = [60, 85, 100, 140][Math.floor(Math.random() * 4)];
+                }
+
+                if (score < 0) score = 0;
+                if (score > 180) score = 180;
+                if (currentScore - score <= 1) return 0;
+
+                return score;
+            }
+        }
+
+        function checkBotTurn() {
+            if (matchState.isOver) return;
+            const team = matchState.teams[matchState.activeTeamIndex];
+            const currentShooter = team.roster[team.shooterIndex];
+            
+            if (currentShooter === 'bot' && activeBot) {
+                processTurn('bot', team.score);
+            }
+        }
+
+        function processTurn(currentPlayerId, teamScore) {
+            const scoreInput = document.getElementById('score-input');
+            
+            if (currentPlayerId === 'bot' && activeBot) {
+                scoreInput.disabled = true;
+                scoreInput.placeholder = "En attente de l'arbitre...";
+                scoreInput.value = "";
+                
+                const executeBotThrow = () => {
+                    scoreInput.placeholder = "Le Bot lance...";
+                    setTimeout(() => {
+                        const botScore = activeBot.playTurn(teamScore);
+                        scoreInput.value = botScore;
+                        submitScore(); 
+                        scoreInput.disabled = false;
+                        scoreInput.placeholder = "0";
+                    }, 1500); 
+                };
+
+                const waitForVoice = () => {
+                    if (window.speechSynthesis && window.speechSynthesis.speaking) {
+                        setTimeout(waitForVoice, 500);
+                    } else {
+                        executeBotThrow();
+                    }
+                };
+                setTimeout(waitForVoice, 200); 
+            }
+        }
+    </script>
+</body>
+</html>

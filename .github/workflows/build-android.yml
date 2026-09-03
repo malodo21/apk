@@ -1,0 +1,65 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Setup JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses || true
+
+      - name: Install Android SDK platform & build-tools
+        run: |
+          sdkmanager "platform-tools" || true
+          sdkmanager "platforms;android-36" || true
+          sdkmanager "platforms;android-35" || true
+          sdkmanager "platforms;android-34" || true
+          sdkmanager "build-tools;36.0.0" || true
+          sdkmanager "build-tools;35.0.0" || true
+          sdkmanager "build-tools;34.0.0" || true
+          sdkmanager --list_installed
+
+      - name: Add Android platform (Capacitor)
+        run: npx cap add android
+
+      - name: Sync web assets into the native project
+        run: npx cap sync android
+
+      - name: Make gradlew executable
+        run: chmod +x android/gradlew
+
+      - name: Build debug APK
+        working-directory: android
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Upload APK artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: darts-scorer-pro-debug-apk
+          path: android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: warn
