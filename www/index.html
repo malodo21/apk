@@ -1156,7 +1156,9 @@
 
         // =====================================================
         // MOTEUR AUDIO — MP3 enregistrés, avec repli automatique
-        // sur la voix de synthèse si un fichier n'existe pas
+        // sur la voix de synthèse si un fichier n'existe pas.
+        // Tout passe par une file d'attente : chaque annonce attend
+        // la fin complète de la précédente avant de démarrer.
         // =====================================================
         const AUDIO_BASE = 'audio/';
         const _audioPlayer = new Audio();
@@ -1164,6 +1166,8 @@
         let _audioUnlocked = false;
         let _pendingOnEnd = null;
         let _pendingOnError = null;
+        const _audioQueue = [];
+        let _audioBusy = false;
 
         _audioPlayer.addEventListener('ended', () => {
             const cb = _pendingOnEnd;
@@ -1194,25 +1198,45 @@
         document.addEventListener('touchstart', _unlockAudio, { once: true });
         document.addEventListener('click', _unlockAudio, { once: true });
 
-        // Parle un texte via la synthèse vocale et appelle onEnd() une fois terminé.
-        function speakThenCall(text, ttsOpts, onEnd) {
-            if (!('speechSynthesis' in window)) { if (onEnd) onEnd(); return; }
+        // Parle un texte via la synthèse vocale et appelle onDone() une fois terminé.
+        function speakThenCall(text, ttsOpts, onDone) {
+            if (!('speechSynthesis' in window)) { if (onDone) onDone(); return; }
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(text);
             u.lang = 'fr-FR';
             if (ttsOpts) Object.assign(u, ttsOpts);
-            u.onend = () => { if (onEnd) onEnd(); };
-            u.onerror = () => { if (onEnd) onEnd(); };
+            u.onend = () => { if (onDone) onDone(); };
+            u.onerror = () => { if (onDone) onDone(); };
             applyVoiceAndSpeak(u);
         }
 
-        // Joue un MP3 ; si le fichier n'existe pas (ou échoue), parle fallbackText à la
-        // place. Appelle onEnd() une fois que le son (MP3 ou repli vocal) est terminé.
-        function playMP3OrSpeak(filename, fallbackText, onEnd, ttsOpts) {
+        // Ajoute une annonce à la file. Chaque élément attend que le précédent soit
+        // TOTALEMENT terminé (MP3 joué jusqu'au bout, ou repli vocal fini) avant de
+        // démarrer — plus aucune annonce ne peut en couper une autre.
+        function enqueueAnnouncement(filename, fallbackText, ttsOpts) {
+            _audioQueue.push({ filename, fallbackText, ttsOpts });
+            _processAudioQueue();
+        }
+
+        function _processAudioQueue() {
+            if (_audioBusy || _audioQueue.length === 0) return;
+            _audioBusy = true;
+            const item = _audioQueue.shift();
+
+            const stepDone = () => {
+                _audioBusy = false;
+                _processAudioQueue();
+            };
+
+            if (!item.filename) {
+                speakThenCall(item.fallbackText, item.ttsOpts, stepDone);
+                return;
+            }
+
+            _pendingOnEnd = stepDone;
+            _pendingOnError = () => speakThenCall(item.fallbackText, item.ttsOpts, stepDone);
             _audioPlayer.pause();
-            _pendingOnEnd = onEnd || null;
-            _pendingOnError = () => speakThenCall(fallbackText, ttsOpts, onEnd);
-            _audioPlayer.src = AUDIO_BASE + filename;
+            _audioPlayer.src = AUDIO_BASE + item.filename;
             _audioPlayer.volume = 1;
             const p = _audioPlayer.play();
             if (p) p.catch(() => {
@@ -1220,14 +1244,6 @@
                 _pendingOnEnd = null; _pendingOnError = null;
                 if (cb) cb();
             });
-        }
-
-        // Enchaîne plusieurs étapes [{file, fallbackText, ttsOpts}], chacune avec son
-        // propre repli vocal si le MP3 correspondant manque.
-        function playSequence(steps, index = 0) {
-            if (index >= steps.length) return;
-            const step = steps[index];
-            playMP3OrSpeak(step.file, step.fallbackText, () => playSequence(steps, index + 1), step.ttsOpts);
         }
 
         const SPECIAL_SOUNDS = {
@@ -1253,18 +1269,16 @@
         };
 
         function announceLegScore(s) {
-            window.speechSynthesis && window.speechSynthesis.cancel();
-
             if (s === 0) {
-                playMP3OrSpeak('s_tof.mp3', 'Bravo tu as fait une TOF', null, { rate: 0.70, pitch: 1.1 });
+                enqueueAnnouncement('s_tof.mp3', 'Bravo tu as fait une TOF', { rate: 0.70, pitch: 1.1 });
                 return;
             }
             if (s === 180) {
                 const variant = VARIANTS_180[Math.floor(Math.random() * VARIANTS_180.length)];
-                playMP3OrSpeak(variant, 'Cent quatre-vingts !', null, { rate: 0.65, pitch: 1.35 });
+                enqueueAnnouncement(variant, 'Cent quatre-vingts !', { rate: 0.65, pitch: 1.35 });
                 return;
             }
-            playMP3OrSpeak('s_' + s + '.mp3', s.toString(), null);
+            enqueueAnnouncement('s_' + s + '.mp3', s.toString(), null);
         }
 
         function announceTurnIfFinishPossible() {
@@ -1280,21 +1294,17 @@
             const firstName = shooterName.split(' ')[0];
             const playerMp3 = PLAYER_VOICE_MAP[firstName] || '';
 
-            setTimeout(() => {
-                playSequence([
-                    { file: playerMp3, fallbackText: firstName },
-                    { file: 's_il_reste.mp3', fallbackText: 'il reste' },
-                    { file: 's_' + score + '.mp3', fallbackText: score.toString() },
-                ]);
-            }, 100);
+            enqueueAnnouncement(playerMp3, firstName, null);
+            enqueueAnnouncement('s_il_reste.mp3', 'il reste', null);
+            enqueueAnnouncement('s_' + score + '.mp3', score.toString(), null);
         }
 
         function speakFrench(m) {
             const entry = SPECIAL_SOUNDS[m];
             if (entry) {
-                playMP3OrSpeak(entry.file, entry.text, null);
+                enqueueAnnouncement(entry.file, entry.text, null);
             } else {
-                speakThenCall(m, null, null);
+                enqueueAnnouncement('', m, null);
             }
         }
 
