@@ -463,10 +463,11 @@
         // ======================
 
         const RAW_PLAYER_LIST = [
-            "Alexandre GARRY", "Alexiel PAVAGEAU", "Benjamin LAINÉ", "Christophe NOEL", "Céline MALLARD",
+            "Alexandre GARRY", "Benjamin LAINÉ", "Christophe NOEL", "Céline MALLARD",
             "David LEBALLONNIER", "Dimitri MENARD", "Flavien NARAS", "François-Xavier PAVAGEAU", "Gwenael HAMET",
             "Ion PUSCASU", "Justin GOIZET", "Jérémy LEROUX", "Michel BUROT", "Mihail PUSCASU",
-            "Romuald CERISIER", "Tony SALLIER", "Yoann BONAVENTURE"
+            "Romuald CERISIER", "Tony SALLIER", "Yoann BONAVENTURE", "Jonathan MERCIER", "Nicolas ROCHER",
+            "Jérémy TRONSON"
         ];
 
         const IMPOSSIBLE_SCORES = [163, 166, 169, 172, 173, 175, 176, 178, 179];
@@ -1260,12 +1261,13 @@
         // automatique (le fichier vide échoue toujours à charger, ce qui déclenche
         // proprement le repli vocal du prénom).
         const PLAYER_VOICE_MAP = {
-            'Alexandre': 'p_alexandre.mp3', 'Alexiel': 'p_alexiel.mp3', 'Benjamin': 'p_benjamin.mp3',
+            'Alexandre': 'p_alexandre.mp3', 'Benjamin': 'p_benjamin.mp3',
             'Christophe': 'p_christophe.mp3', 'Céline': 'p_celine.mp3', 'David': 'p_david.mp3',
             'Dimitri': 'p_dimitri.mp3', 'Flavien': 'p_flavien.mp3', 'François-Xavier': 'p_francois_xavier.mp3',
             'Gwenael': 'p_gwenael.mp3', 'Ion': 'p_ion.mp3', 'Justin': 'p_justin.mp3',
             'Jérémy': 'p_jeremy.mp3', 'Michel': 'p_michel.mp3', 'Mihail': 'p_mihail.mp3',
             'Romuald': 'p_romuald.mp3', 'Tony': 'p_tony.mp3', 'Yoann': 'p_yoann.mp3',
+            "Jonathan": "p_jonathan.mp3", "Nicolas": "p_nicolas.mp3"
         };
 
         function announceLegScore(s) {
