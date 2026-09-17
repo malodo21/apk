@@ -52,6 +52,9 @@ jobs:
       - name: Add Android platform (Capacitor)
         run: npx cap add android
 
+      - name: Generate app icon from assets/icon.svg
+        run: npx @capacitor/assets generate --android --iconBackgroundColor '#020617' --iconBackgroundColorDark '#020617'
+
       - name: Sync web assets into the native project
         run: npx cap sync android
 

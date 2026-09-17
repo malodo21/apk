@@ -79,13 +79,18 @@ modification de code nécessaire.
 - **La synthèse vocale** (`speechSynthesis`, annonces "Cent quatre-vingts !" etc.) dépend du
   moteur TTS installé sur le téléphone. Le code gère déjà l'absence de l'API, mais testez sur
   un appareil réel pour vérifier que ça sonne comme attendu (voix française disponible, etc.).
-- **Icône de l'app** : l'app utilise l'icône par défaut de Capacitor pour l'instant. Pour la
-  personnaliser (logo fléchette), placez une image source dans `assets/` et utilisez
-  `npx @capacitor/assets generate` — ou dites-le-moi et je peux préparer un visuel.
 - **`appId`** dans `capacitor.config.json` est réglé sur `com.dartsscorerpro.app` (générique).
   Changez-le pour votre propre identifiant si vous comptez publier l'app un jour
   (ex: `fr.votreclub.dartsscorer`) — une fois l'app installée sous un appId, le changer plus
   tard équivaut à une nouvelle app aux yeux d'Android.
+
+## Icône de l'application
+
+`assets/icon.svg` (une cible fléchettes vert émeraude / ambre, assortie au thème de l'appli)
+est généré automatiquement en toutes les tailles nécessaires (icône classique + icône
+adaptative Android) par le workflow GitHub Actions, juste après la création du projet Android.
+Pour changer le visuel, remplacez ce fichier par votre propre image (SVG ou PNG carré, au
+moins 1024×1024) et repoussez — rien d'autre à modifier.
 
 ## Structure du projet
 
